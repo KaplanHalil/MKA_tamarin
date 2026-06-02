@@ -1,342 +1,124 @@
-theory MKA_Basic
+theory Simplified_MKA
 
 begin
-
-/*
-
-=============================================================
-MKA (MACsec Key Agreement) Protocol Model
-=========================================
-
-This model represents a simplified version of IEEE 802.1X MKA.
-
-Included functionality:
-
-* Shared CAK assumption
-* Derivation of ICK and KEK
-* Peer discovery
-* Key Server election
-* Secure Association Key (SAK) generation
-* Secure SAK distribution
-* Key confirmation
-
-Excluded functionality:
-
-* SCI handling
-* Priority-based election
-* Live Peer List
-* Rekey procedure
-* SAK rollover
-* Multiple participants
-
-The purpose of this model is to verify:
-
-* Authentication
-* SAK secrecy
-* Key confirmation
-
-*/
 
 builtins: hashing
 
 functions:
-
-```
-kdf_ick/1,
-kdf_kek/1,
-
-mac/2,
-
-senc/2,
-sdec/2,
-
-basic/3,
-dsak/2
-```
+  a/0,
+  b/0,
+  kek/0,
+  ick/0,
+  sak/0,
+  atf/2,
+  enc/2,
+  dec/2,
+  mac/2,
+  mkapdu/2
 
 equations:
+  dec(enc(x,k),k) = x
 
-```
-sdec(senc(x,k),k) = x
-```
+rule InstallSharedCAK:
+  [ Fr(~Cak) ]
+  --[ CAKInstalled(~Cak) ]->
+  [ !CAK(a,~Cak), !CAK(b,~Cak) ]
 
-/* ==========================================================
-Long-term CAK installation
-========================================================== */
+rule SendMKAPDU_A:
+  [ !CAK(a,Cak), Fr(~Sa) ]
+  --[ SentMKAPDU(a,~Sa) ]->
+  [ Out(pair(mkapdu(a,~Sa), mac(mkapdu(a,~Sa), atf(Cak,ick)))), Speed(a,~Sa) ]
 
-rule InstallCAK:
+rule SendMKAPDU_B:
+  [ !CAK(b,Cak), Fr(~Sb) ]
+  --[ SentMKAPDU(b,~Sb) ]->
+  [ Out(pair(mkapdu(b,~Sb), mac(mkapdu(b,~Sb), atf(Cak,ick)))), Speed(b,~Sb) ]
 
-```
-[ Fr(~cak) ]
-```
+rule DeriveKeys_A:
+  [ !CAK(a,Cak) ]
+  --[ DerivedKeys(a) ]->
+  [ !KEK(a,atf(Cak,kek)), !ICK(a,atf(Cak,ick)) ]
 
---[ CAKCreated(A,~cak) ]->
+rule DeriveKeys_B:
+  [ !CAK(b,Cak) ]
+  --[ DerivedKeys(b) ]->
+  [ !KEK(b,atf(Cak,kek)), !ICK(b,atf(Cak,ick)) ]
 
-```
-[ !CAK(A,~cak) ]
-```
+rule ReceiveMKAPDU_B:
+   [ In(pair(P, mac(P, atf(Cak,ick)))), !CAK(b,Cak), !ICK(b,atf(Cak,ick)) ]
+  --[ ReceivedMKAPDU(b,a) ]->
+   [ PeerSpeed(a), PeerDiscovered(b,a) ]
 
-/* ==========================================================
-Derive ICK and KEK
-========================================================== */
+rule ReceiveMKAPDU_A:
+   [ In(pair(P, mac(P, atf(Cak,ick)))), !CAK(a,Cak), !ICK(a,atf(Cak,ick)) ]
+  --[ ReceivedMKAPDU(a,b) ]->
+   [ PeerSpeed(b), PeerDiscovered(a,b) ]
+rule AHasHigherSpeed:
+  [ PeerSpeed(a), PeerSpeed(b), !CAK(a,Cak) ]
+  --[]->
+  [ Higher(a,b) ]
 
-rule DeriveKeys:
+rule BHasHigherSpeed:
+  [ PeerSpeed(a), PeerSpeed(b), !CAK(a,Cak) ]
+  --[]->
+  [ Higher(b,a) ]
 
-```
-[ !CAK(A,cak) ]
-```
+rule CreateSAK_A:
+  [ Higher(a,b), !CAK(a,Cak) ]
+  --[ SAKCreated(a,atf(Cak,sak)) ]->
+  [ !SAK(a,atf(Cak,sak)) ]
 
---[ KeysDerived(A) ]->
+rule CreateSAK_B:
+  [ Higher(b,a), !CAK(b,Cak) ]
+  --[ SAKCreated(b,atf(Cak,sak)) ]->
+  [ !SAK(b,atf(Cak,sak)) ]
 
-```
-[ !ICK(A,kdf_ick(cak)),
-  !KEK(A,kdf_kek(cak))
-]
-```
+rule SendSAK_A:
+  [ !SAK(a,sak), !KEK(a,kek), !ICK(a,ick) ]
+  --[ SentSAK(a,sak) ]->
+  [ Out(pair(enc(sak,kek), mac(enc(sak,kek),ick))) ]
 
-/* ==========================================================
-MKA Peer Discovery
-========================================================== */
+rule SendSAK_B:
+  [ !SAK(b,sak), !KEK(b,kek), !ICK(b,ick) ]
+  --[ SentSAK(b,sak) ]->
+  [ Out(pair(enc(sak,kek), mac(enc(sak,kek),ick))) ]
 
-rule SendBasicParameterSet:
+rule ReceiveSAK_A:
+  [ In(pair(ciph, mac(ciph,ick))), !KEK(a,kek), !ICK(a,ick) ]
+  --[ SessionEstablished(a,dec(ciph,kek)) ]->
+  [ InstalledSAK(a,dec(ciph,kek)) ]
 
-```
-[ !ICK(A,ick),
-  Fr(~mi),
-  Fr(~mn)
-]
-```
+rule ReceiveSAK_B:
+  [ In(pair(ciph, mac(ciph,ick))), !KEK(b,kek), !ICK(b,ick) ]
+  --[ SessionEstablished(b,dec(ciph,kek)) ]->
+  [ InstalledSAK(b,dec(ciph,kek)) ]
 
---[ SendBasic(A,~mi,~mn) ]->
+rule RevealCAK_A:
+  [ !CAK(a,Cak) ]
+  --[ CAKReveal(a) ]->
+  [ Out(Cak) ]
 
-```
-[ Out(
-      <
-        basic(~mi,~mn,A),
-        mac(basic(~mi,~mn,A),ick)
-      >
-  )
-]
-```
+rule RevealCAK_B:
+  [ !CAK(b,Cak) ]
+  --[ CAKReveal(b) ]->
+  [ Out(Cak) ]
 
-rule ReceiveBasicParameterSet:
-
-```
-[ In(
-      <
-        basic(mi,mn,A),
-        mac(basic(mi,mn,A),ick)
-      >
-  ),
-
-  !ICK(B,ick)
-]
-```
-
---[ PeerAuthenticated(A,B) ]->
-
-```
-[ Peer(B,A) ]
-```
-
-/* ==========================================================
-Key Server Election
-========================================================== */
-
-rule BecomeKeyServer:
-
-```
-[ Peer(A,B) ]
-```
-
---[ KeyServer(A) ]->
-
-```
-[ KeyServerState(A) ]
-```
-
-/* ==========================================================
-SAK Generation
-========================================================== */
-
-rule GenerateSAK:
-
-```
-[ KeyServerState(A),
-  Fr(~sak)
-]
-```
-
---[ SAKGenerated(A,~sak) ]->
-
-```
-[ CurrentSAK(A,~sak) ]
-```
-
-/* ==========================================================
-SAK Distribution
-========================================================== */
-
-rule SendSAK:
-
-```
-[ CurrentSAK(A,sak),
-  !KEK(A,kek),
-  !ICK(A,ick),
-  Fr(~ki)
-]
-```
-
---[ SendSAK(A,sak) ]->
-
-```
-[ Out(
-      <
-        dsak(~ki,senc(sak,kek)),
-        mac(dsak(~ki,senc(sak,kek)),ick)
-      >
-  )
-]
-```
-
-rule ReceiveSAK:
-
-```
-[ In(
-      <
-        dsak(ki,senc(sak,kek)),
-        mac(dsak(ki,senc(sak,kek)),ick)
-      >
-  ),
-
-  !KEK(B,kek),
-  !ICK(B,ick)
-]
-```
-
---[ ReceiveSAK(B,sak) ]->
-
-```
-[ InstalledSAK(B,sak) ]
-```
-
-/* ==========================================================
-Key Confirmation
-========================================================== */
-
-rule SendConfirmation:
-
-```
-[ InstalledSAK(B,sak),
-  !ICK(B,ick)
-]
-```
-
---[ ConfirmationSent(B,sak) ]->
-
-```
-[ Out(mac(sak,ick)) ]
-```
-
-rule VerifyConfirmation:
-
-```
-[ In(mac(sak,ick)),
-  CurrentSAK(A,sak),
-  !ICK(A,ick)
-]
-```
-
---[ SessionEstablished(A,sak) ]->
-
-```
-[ SecureChannel(A,sak) ]
-```
-
-/* ==========================================================
-Compromise Model
-========================================================== */
-
-rule RevealCAK:
-
-```
-[ !CAK(A,cak) ]
-```
-
---[ CAKReveal(A) ]->
-
-```
-[ Out(cak) ]
-```
-
-/* ==========================================================
-Security Lemmas
-========================================================== */
-
-/*
-Authentication:
-
-If B receives a SAK,
-some participant must have distributed it.
-*/
-
-lemma authentication:
-
+lemma sak_agreement:
 "
-All B K #i.
-
-ReceiveSAK(B,K) @ i
-
-==>
-
-Ex A #j.
-
-SendSAK(A,K) @ j
+All X K #i.
+SessionEstablished(X,K) @ i ==>
+Ex Y #j.
+SentSAK(Y,K) @ j
 "
-
-/*
-Key confirmation:
-
-If A establishes a secure session,
-someone must have received the same SAK.
-*/
-
-lemma key_confirmation:
-
-"
-All A K #i.
-
-SessionEstablished(A,K) @ i
-
-==>
-
-Ex B #j.
-
-ReceiveSAK(B,K) @ j
-"
-
-/*
-SAK secrecy:
-
-An attacker cannot learn SAK
-unless a CAK compromise occurred.
-*/
 
 lemma sak_secrecy:
-
 "
-All A K #i.
-
-SessionEstablished(A,K) @ i
-
-==>
-
+All X K #i.
+SessionEstablished(X,K) @ i ==>
 (
-not(Ex #j. K(K) @ j)
-|
-
-Ex B #r.
-CAKReveal(B) @ r
+  not(Ex #j. K(K) @ j)
+  |
+  Ex Y #r. CAKReveal(Y) @ r
 )
 "
 
