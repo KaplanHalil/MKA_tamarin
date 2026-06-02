@@ -1,0 +1,89 @@
+theory Simplified_MKA
+
+/* 
+
+*****Simplified Model of the MKA Protocol*****   
+KeyServer                                      Server
+    |                                             |
+    |                                             |
+    |------- KEK = ATF(CAK,"KEK") --------------- |
+    |------- ICK = ATF(CAK,"ICK") --------------- |
+    |                                             |
+    |                                             |
+    |SAK = ATF(CAK,"SAK")                         |
+    |C = Enc(SAK,KEK)                             |
+    |T = MAC(C,ICK)                               |
+    |                                             |
+    |-------------- (C,T) ----------------------> |
+    |                                             |
+    |                                    Verify(T)|
+    |                               SAK=Dec(KEK,C)|
+    |                                             |
+    |============= Shared SAK =================== |
+
+*/
+begin
+
+builtins: symmetric-encryption, hashing
+
+functions:
+  atf/2,
+  mac/2,
+  macverify/3,
+  genpriv/1 [private],
+  mactrue/0, 
+  genid/1 [private]
+  
+
+equations:
+  macverify(mac(M,K),M,K) = mactrue
+
+
+rule KeyServer:
+  let 
+      CAK = genpriv('CAK')
+      KEK = atf(CAK,'KEK')
+      ICK = atf(CAK,'ICK')
+      SAK = atf(CAK,'SAK')
+      C = senc(SAK,KEK)
+      T = mac(C,ICK)
+
+  in 
+  []--[!SentSAK($Keyserver,C)]->[Out(<C,T>)]
+
+rule Server:
+  
+  let 
+      CAK = genpriv('CAK')
+      KEK = atf(CAK,'KEK')
+      ICK = atf(CAK,'ICK')
+      SAK = sdec(C,KEK)
+  in
+  [In(<C,T>)]
+  --[
+    _restrict(macverify(T,C,ICK)=mactrue),
+    !SessionEstablished($Server,SAK)]->[]
+
+
+// Lemma: if a session is established, the SAK must have been sent by some party.
+lemma sak_agreement:
+"
+All X K #i.
+SessionEstablished(X,K) @ i ==>
+Ex Y #j.
+SentSAK(Y,K) @ j
+"
+
+// Lemma: if a session is established, the SAK remains secret unless the CAK is revealed.
+lemma sak_secrecy:
+"
+All X K #i.
+SessionEstablished(X,K) @ i ==>
+(
+  not(Ex #j. K(K) @ j)
+  |
+  Ex Y #r. CAKReveal(Y) @ r
+)
+"
+
+end
