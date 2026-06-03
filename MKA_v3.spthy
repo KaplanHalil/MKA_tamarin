@@ -1,15 +1,48 @@
 theory Simplified_MKA_halil_Enhanced
 
 /*
-Enhanced simplified MKA-style model.
+***** Enhanced Simplified MKA Protocol with Rekey *****
 
-Main changes compared to the original draft:
-- The long-term CAK is introduced through a dedicated setup rule.
-- The KeyServer session is bound to a fresh session identifier sid.
-- The encrypted payload carries the session identifier and role tags.
-- The Server performs an explicit MAC check and returns a key-confirmation ACK.
-- Optional compromise rules are added for CAK and SAK.
-- The lemma set includes agreement, injective agreement, secrecy, and confirmation.
+KeyServer                                             Server
+    |                                                    |
+    |========== Pre-Shared CAK =========================>|
+    |                                                    |
+    | KEK = ATF(CAK,"KEK")                              |
+    | ICK = ATF(CAK,"ICK")                              |
+    |                                                    |
+    | sid1 = Fresh()                                     |
+    | SAK1 = ATF(CAK,sid1)                              |
+    |                                                    |
+    | C1 = Enc(<sid1,SAK1>,KEK)                         |
+    | T1 = MAC(<C1,sid1>,ICK)                           |
+    |                                                    |
+    |-----------------(C1,T1)-------------------------->|
+    |                                                    |
+    |                                      Verify(T1)   |
+    |                                      SAK1=Dec(C1) |
+    |                                                    |
+    |                      ACK1 = MAC(<sid1>,SAK1)      |
+    |<------------------- ACK1 -------------------------|
+    |                                                    |
+    |                                                    |
+    |------------ Periodic Rekey Trigger -------------- |
+    |                                                    |
+    | sid2 = Fresh()                                     |
+    | SAK2 = ATF(CAK,sid2)                              |
+    |                                                    |
+    | C2 = Enc(<sid2,SAK2>,KEK)                         |
+    | T2 = MAC(<C2,sid2>,ICK)                           |
+    |                                                    |
+    |-----------------(C2,T2)-------------------------->|
+    |                                                    |
+    |                                      Verify(T2)   |
+    |                                      SAK2=Dec(C2) |
+    |                                                    |
+    |                      ACK2 = MAC(<sid2>,SAK2)      |
+    |<------------------- ACK2 -------------------------|
+    |                                                    |
+    |============= Shared Fresh SAK2 ===================|
+    |                                                    |
 */
 
 begin
@@ -20,8 +53,6 @@ functions:
   atf/2,
   mac/2,
   macverify/3,
-  genpriv/1 [private],
-  genid/1 [private],
   mactrue/0
 
 equations:
