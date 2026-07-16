@@ -10,7 +10,7 @@
 
 \title{Formal Security Analysis of the MACsec Key Agreement (MKA) Protocol using Tamarin}
 \author{\inst{1}Halil İbrahim Kaplan}
-\institute{Tübitak BİLGEM\email{halil.kaplan@tubitak.gov.tr}}
+\institute{Tübitak BİLGEM \email{halil.kaplan@tubitak.gov.tr}}
 \maketitle
 
 \begin{abstract}
@@ -31,8 +31,55 @@ The protocol involves a Key Server and a Server (responder).  A pre‑shared CAK
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.9\linewidth]{/home/halil/.gemini/antigravity/brain/1ff4486a-9501-4b9d-a922-80c78c4e0401/mka_protocol_diagram_1780302403243.png}
-  \caption{MKA protocol flow (Initiator ↔ Responder).}
+  \begin{minipage}{0.95\linewidth}
+  \begin{lstlisting}[basicstyle=\ttfamily\scriptsize,breaklines=false,frame=none,backgroundcolor=]
+KeyServer                                             Server
+    |                                                   |
+    |========== Pre-Shared CAK ========================>|
+    |                                                   |
+    | KEK = KDF(CAK,"KEK")                              |
+    | ICK = KDF(CAK,"ICK")                              |
+    |                                                   |
+    | sid1 = Fresh()                                    |
+    | n1   = Fresh()                                    |
+    | state = InitialPending                            |
+    | SAK1 = KDF(CAK,sid1)                              |
+    |                                                   |
+    | C1 = Enc(<sid1,n1,SAK1>, KEK)                     |
+    | ICV1 = MAC(<C1,sid1,n1>, ICK)                     |
+    |                                                   |
+    |-----------------(C1,ICV1)------------------------>|
+    |                                                   |
+    |                                      Verify(ICV1) |
+    |                                      SAK1=Dec(C1) |
+    |                                      state=InitialActive |
+    |                                                   |
+    |                      ACK1 = MAC(<sid1,n1>,SAK1)    |
+    |<------------------- ACK1 -------------------------|
+    |                                                   |
+    |============= Periodic Rekey ======================|
+    |                                                   |
+    | sid2 = Fresh()                                    |
+    | n2   = Fresh()                                    |
+    | state = RekeyPending                              |
+    | SAK2 = KDF(CAK,sid2)                              |
+    |                                                   |
+    | C2 = Enc(<sid2,n2,SAK2>,KEK)                      |
+    | ICV2 = MAC(<C2,sid2,n2>,ICK)                      |
+    |                                                   |
+    |-----------------(C2,ICV2)------------------------>|
+    |                                                   |
+    |                                      Verify(ICV2) |
+    |                                      SAK2=Dec(C2) |
+    |                                      state=RekeyActive |
+    |                                                   |
+    |                      ACK2 = MAC(<sid2,n2>,SAK2)    |
+    |<------------------- ACK2 -------------------------|
+    |                                                   |
+    |============= Shared Fresh SAK2 ===================|
+  \end{lstlisting}
+  \end{minipage}
+  \caption{Simplified MKA protocol flow }
   \label{fig:mka-flow}
 \end{figure}
 \section{Tamarin Prover}
@@ -54,11 +101,11 @@ Tamarin supports several important features for protocol verification:
 \item \textbf{Scalability}: Tamarin employs optimized graph-rewriting and unification algorithms to manage the potentially large state space of protocol interactions.
 \end{enumerate}
 
-In our model, we use Tamarin's rules to represent the four main phases of MKA: (1)~shared key setup, (2)~initial key server transmission, (3)~server reception and response, (4)~key server confirmation, (5)~re-keying transmission and reception, and (6)~optional adversary compromise. We also define restriction rules (using \texttt{_restrict}) to enforce that the Server can only accept messages with valid MACs. The verification of each lemma involves an exhaustive exploration of all possible interleavings and adversarial actions, providing strong formal guarantees about protocol correctness.
+In our model, we use Tamarin's rules to represent the four main phases of MKA: (1)~shared key setup, (2)~initial key server transmission, (3)~server reception and response, (4)~key server confirmation, (5)~re-keying transmission and reception, and (6)~optional adversary compromise. We also define restriction rules (using \texttt{\_restrict}) to enforce that the Server can only accept messages with valid MACs. The verification of each lemma involves an exhaustive exploration of all possible interleavings and adversarial actions, providing strong formal guarantees about protocol correctness.
 \section{Model Formalization in Tamarin}
 The following listing contains the complete Tamarin model (MKA\_v4.spthy).  It defines the built‑in primitives, functions, equations, rules for the initial and re‑keying sessions, and the security lemmas.
 
-\begin{lstlisting}[language=Spthy]
+\begin{lstlisting}
 theory MKA_v4
 /*
 ***** Enhanced Simplified MKA Protocol with Rekey *****

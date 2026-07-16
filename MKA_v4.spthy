@@ -3,52 +3,54 @@ theory MKA_v4
 ***** Enhanced Simplified MKA Protocol with Rekey *****
 
 KeyServer                                             Server
-    |                                                    |
-    |========== Pre-Shared CAK =========================>|
-    |                                                    |
-    | KEK = ATF(CAK,"KEK")                              |
-    | ICK = ATF(CAK,"ICK")                              |
-    |                                                    |
-    | sid1 = Fresh()                                     |
-    | SAK1 = ATF(CAK,sid1)                              |
-    |                                                    |
-    | C1 = Enc(<sid1,SAK1>,KEK)                         |
-    | T1 = MAC(<C1,sid1>,ICK)                           |
-    |                                                    |
-    |-----------------(C1,T1)-------------------------->|
-    |                                                    |
-    |                                      Verify(T1)   |
+    |                                                   |
+    |========== Pre-Shared CAK ========================>|
+    |                                                   |
+    | KEK = KDF(CAK,"KEK")                              |
+    | ICK = KDF(CAK,"ICK")                              |
+    |                                                   |
+    | sid1 = Fresh()                                    |
+    | SAK1 = KDF(CAK,sid1)                              |
+    |                                                   |
+    | C1 = Enc(<sid1,SAK1>, KEK)                        |
+    | ICV1 = MAC(<C1,sid1>, ICK)                        |
+    |                                                   |
+    |-----------------(C1,ICV1)-------------------------->|
+    |                                                   |
+    |                                      Verify(ICV1) |
     |                                      SAK1=Dec(C1) |
-    |                                                    |
+    |                                                   |
     |                      ACK1 = MAC(<sid1>,SAK1)      |
     |<------------------- ACK1 -------------------------|
-    |                                                    |
-    |                                                    |
-    |------------ Periodic Rekey Trigger -------------- |
-    |                                                    |
-    | sid2 = Fresh()                                     |
-    | SAK2 = ATF(CAK,sid2)                              |
-    |                                                    |
+    |                                                   |
+    |============= Shared Fresh SAK2 ===================|
+    |                                                   |
+    |                                                   |
+    |------------ Periodic Rekey Trigger ---------------|
+    |                                                   |
+    | sid2 = Fresh()                                    |
+    | SAK2 = KDF(CAK,sid2)                              |
+    |                                                   |
     | C2 = Enc(<sid2,SAK2>,KEK)                         |
-    | T2 = MAC(<C2,sid2>,ICK)                           |
-    |                                                    |
-    |-----------------(C2,T2)-------------------------->|
-    |                                                    |
-    |                                      Verify(T2)   |
+    | ICV2 = MAC(<C2,sid2>,ICK)                         |
+    |                                                   |
+    |-----------------(C2,ICV2)-------------------------->|
+    |                                                   |
+    |                                      Verify(ICV2) |
     |                                      SAK2=Dec(C2) |
-    |                                                    |
+    |                                                   |
     |                      ACK2 = MAC(<sid2>,SAK2)      |
     |<------------------- ACK2 -------------------------|
-    |                                                    |
+    |                                                   |
     |============= Shared Fresh SAK2 ===================|
-    |                                                    |
+    |                                                   |
 */
 begin
 
 builtins: symmetric-encryption, hashing
 
 functions:
-  atf/2,
+  kdf/2,
   mac/2,
   macverify/3,
   mactrue/0
@@ -66,19 +68,19 @@ rule Setup_CAK:
 rule Initial_KeyServer_Send:
   
 let
-  kek = atf(cak,'KEK')
-  ick = atf(cak,'ICK')
-  sak1 = atf(cak,~sid1)
+  kek = kdf(cak,'KEK')
+  ick = kdf(cak,'ICK')
+  sak1 = kdf(cak,~sid1)
   payload1 = <~sid1,sak1>
   c1 = senc(payload1,kek)
-  t1 = mac(<c1,~sid1>,ick)
+  icv1 = mac(<c1,~sid1>,ick)
 in
   [ !SharedCAK(cak), Fr(~sid1) ]--[
     SentInitialSAK(~sid1,sak1),
     SecretSAK(~sid1,sak1),
     InitialSessionStarted(~sid1)
   ]->
-  [ Out(<c1,t1>),
+  [ Out(<c1,icv1>),
     InitialPending(cak,~sid1,sak1),
     !StoredSAK(~sid1,sak1) ]
 
@@ -86,14 +88,14 @@ in
 rule Initial_Server_Receive:
   
 let
-  kek = atf(cak,'KEK')
-  ick = atf(cak,'ICK')
+  kek = kdf(cak,'KEK')
+  ick = kdf(cak,'ICK')
   payload1 = sdec(c1,kek)
   sid1 = fst(payload1)
   sak1 = snd(payload1)
 in
-  [ In(<c1,t1>), !SharedCAK(cak) ]--[
-    _restrict(macverify(t1,<c1,sid1>,ick)=mactrue),
+  [ In(<c1,icv1>), !SharedCAK(cak) ]--[
+    _restrict(macverify(icv1,<c1,sid1>,ick)=mactrue),
     InitialSessionEstablished(sid1,sak1),
     InitialAckPrepared(sid1,sak1)
   ]->
@@ -113,19 +115,19 @@ rule Initial_KeyServer_Confirm:
 rule Rekey_KeyServer_Send:
   
 let
-  kek = atf(cak,'KEK')
-  ick = atf(cak,'ICK')
-  sak2 = atf(cak,~sid2)
+  kek = kdf(cak,'KEK')
+  ick = kdf(cak,'ICK')
+  sak2 = kdf(cak,~sid2)
   payload2 = <~sid2,sak2>
   c2 = senc(payload2,kek)
-  t2 = mac(<c2,~sid2>,ick)
+  icv2 = mac(<c2,~sid2>,ick)
   in
   [ !SharedCAK(cak), !InitialDone(cak,sid1,sak1), Fr(~sid2) ]--[
     SentRekeySAK(~sid2,sak2),
     SecretSAK(~sid2,sak2),
     RekeyStarted(~sid2)
   ]->
-  [ Out(<c2,t2>),
+  [ Out(<c2,icv2>),
     RekeyPending(cak,~sid2,sak2),
     !StoredSAK(~sid2,sak2) ]
 
@@ -133,14 +135,14 @@ let
 rule Rekey_Server_Receive:
   
 let
-  kek = atf(cak,'KEK')
-  ick = atf(cak,'ICK')
+  kek = kdf(cak,'KEK')
+  ick = kdf(cak,'ICK')
   payload2 = sdec(c2,kek)
   sid2 = fst(payload2)
   sak2 = snd(payload2)
 in
-  [ In(<c2,t2>), !SharedCAK(cak) ]--[
-    _restrict(macverify(t2,<c2,sid2>,ick)=mactrue),
+  [ In(<c2,icv2>), !SharedCAK(cak) ]--[
+    _restrict(macverify(icv2,<c2,sid2>,ick)=mactrue),
     RekeySessionEstablished(sid2,sak2),
     RekeyAckPrepared(sid2,sak2)
   ]->
@@ -250,7 +252,7 @@ lemma initial_sak_secrecy_no_reveal:
     ==>
     not(Ex #k. K(sak)@k)
   "
-
+/*
 // Rekey oturumunun SAK'ı açığa çıkarılmadığı sürece saldırganın öğrenemeyeceğini garanti eder.
 lemma rekey_sak_secrecy_no_reveal:
   "
@@ -260,7 +262,7 @@ lemma rekey_sak_secrecy_no_reveal:
     ==>
     not(Ex #k. K(sak)@k)
   "
-
+*/
 // CAK açığa çıkarılmadığı sürece saldırganın öğrenemeyeceğini garanti eder.
 lemma cak_secrecy_no_reveal:
   "

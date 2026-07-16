@@ -1,56 +1,55 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.4.28)  3 JUN 2026 15:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.7.7)  14 JUL 2026 11:39
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex
-(/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex
-LaTeX2e <2023-11-01> patch level 1
-L3 programming layer <2024-01-22>
+**MKA_v4_article.tex
+(./MKA_v4_article.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
 (/usr/share/texlive/texmf-dist/tex/latex/llncs/llncs.cls
-Document Class: llncs 2024/01/29 v2.24 
+Document Class: llncs 2025/02/25 v2.26 
  LaTeX document class for Lecture Notes in Computer Science
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+File: size10.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count187
-\c@section=\count188
-\c@subsection=\count189
-\c@subsubsection=\count190
-\c@paragraph=\count191
-\c@subparagraph=\count192
-\c@figure=\count193
-\c@table=\count194
-\abovecaptionskip=\skip48
-\belowcaptionskip=\skip49
-\bibindent=\dimen140
-) (/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
-Package: multicol 2023/03/30 v1.9f multicolumn formatting (FMi)
-\c@tracingmulticols=\count195
-\mult@box=\box51
-\multicol@leftmargin=\dimen141
-\c@unbalance=\count196
-\c@collectmore=\count197
-\doublecol@number=\count198
-\multicoltolerance=\count199
-\multicolpretolerance=\count266
-\full@width=\dimen142
-\page@free=\dimen143
-\premulticols=\dimen144
-\postmulticols=\dimen145
-\multicolsep=\skip50
-\multicolbaselineskip=\skip51
-\partial@page=\box52
-\last@line=\box53
-\mc@boxedresult=\box54
-\maxbalancingoverflow=\dimen146
-\mult@rightbox=\box55
-\mult@grightbox=\box56
-\mult@firstbox=\box57
-\mult@gfirstbox=\box58
-\@tempa=\box59
+\c@part=\count196
+\c@section=\count197
+\c@subsection=\count198
+\c@subsubsection=\count199
+\c@paragraph=\count266
+\c@subparagraph=\count267
+\c@figure=\count268
+\c@table=\count269
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen141
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2024/09/14 v1.9i multicolumn formatting (FMi)
+\c@tracingmulticols=\count270
+\mult@box=\box52
+\multicol@leftmargin=\dimen142
+\c@unbalance=\count271
+\c@collectmore=\count272
+\doublecol@number=\count273
+\multicoltolerance=\count274
+\multicolpretolerance=\count275
+\full@width=\dimen143
+\page@free=\dimen144
+\premulticols=\dimen145
+\postmulticols=\dimen146
+\multicolsep=\skip51
+\multicolbaselineskip=\skip52
+\partial@page=\box53
+\last@line=\box54
+\mc@boxedresult=\box55
+\maxbalancingoverflow=\dimen147
+\mult@rightbox=\box56
+\mult@grightbox=\box57
+\mult@firstbox=\box58
+\mult@gfirstbox=\box59
 \@tempa=\box60
 \@tempa=\box61
 \@tempa=\box62
@@ -86,19 +85,21 @@ Package: multicol 2023/03/30 v1.9f multicolumn formatting (FMi)
 \@tempa=\box92
 \@tempa=\box93
 \@tempa=\box94
-\c@minrows=\count267
-\c@columnbadness=\count268
-\c@finalcolumnbadness=\count269
-\last@try=\dimen147
-\multicolovershoot=\dimen148
-\multicolundershoot=\dimen149
-\mult@nat@firstbox=\box95
-\colbreak@box=\box96
-\mc@col@check@num=\count270
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/aliascnt.sty
+\@tempa=\box95
+\c@minrows=\count276
+\c@columnbadness=\count277
+\c@finalcolumnbadness=\count278
+\last@try=\dimen148
+\multicolovershoot=\dimen149
+\multicolundershoot=\dimen150
+\mult@nat@firstbox=\box96
+\colbreak@box=\box97
+\mc@col@check@num=\count279
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/aliascnt.sty
 Package: aliascnt 2018/09/07 v1.5 Alias counters (HO)
 )
-\c@chapter=\count271
+\c@chapter=\count280
 LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 379.
 LaTeX Font Info:    Redeclaring math symbol \Delta on input line 380.
 LaTeX Font Info:    Redeclaring math symbol \Theta on input line 381.
@@ -111,281 +112,332 @@ LaTeX Font Info:    Redeclaring math symbol \Phi on input line 387.
 LaTeX Font Info:    Redeclaring math symbol \Psi on input line 388.
 LaTeX Font Info:    Redeclaring math symbol \Omega on input line 389.
 LaTeX Info: Redefining \vec on input line 394.
-\tocchpnum=\dimen150
-\tocsecnum=\dimen151
-\tocsectotal=\dimen152
-\tocsubsecnum=\dimen153
-\tocsubsectotal=\dimen154
-\tocsubsubsecnum=\dimen155
-\tocsubsubsectotal=\dimen156
-\tocparanum=\dimen157
-\tocparatotal=\dimen158
-\tocsubparanum=\dimen159
-\@tempcntc=\count272
-\fnindent=\dimen160
-\c@@inst=\count273
-\c@@auth=\count274
-\c@auco=\count275
-\instindent=\dimen161
-\authrun=\box97
+\tocchpnum=\dimen151
+\tocsecnum=\dimen152
+\tocsectotal=\dimen153
+\tocsubsecnum=\dimen154
+\tocsubsectotal=\dimen155
+\tocsubsubsecnum=\dimen156
+\tocsubsubsectotal=\dimen157
+\tocparanum=\dimen158
+\tocparatotal=\dimen159
+\tocsubparanum=\dimen160
+\@tempcntc=\count281
+\fnindent=\dimen161
+\c@@inst=\count282
+\c@@auth=\count283
+\c@auco=\count284
+\instindent=\dimen162
+\authrun=\box98
 \authorrunning=\toks17
 \tocauthor=\toks18
-\titrun=\box98
+\titrun=\box99
 \titlerunning=\toks19
 \toctitle=\toks20
-\c@theorem=\count276
-\c@case=\count277
-\c@conjecture=\count278
-\c@corollary=\count279
-\c@definition=\count280
-\c@example=\count281
-\c@exercise=\count282
-\c@lemma=\count283
-\c@note=\count284
-\c@problem=\count285
-\c@property=\count286
-\c@proposition=\count287
-\c@question=\count288
-\c@solution=\count289
-\c@remark=\count290
-\headlineindent=\dimen162
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+\c@theorem=\count285
+\c@case=\count286
+\c@conjecture=\count287
+\c@corollary=\count288
+\c@definition=\count289
+\c@example=\count290
+\c@exercise=\count291
+\c@lemma=\count292
+\c@note=\count293
+\c@problem=\count294
+\c@property=\count295
+\c@proposition=\count296
+\c@question=\count297
+\c@solution=\count298
+\c@remark=\count299
+\headlineindent=\dimen163
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks21
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
-Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 107.
- (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen163
-\Gin@req@width=\dimen164
-) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count291
-\lst@gtempboxa=\box99
+\Gin@req@height=\dimen164
+\Gin@req@width=\dimen165
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count300
+\lst@gtempboxa=\box100
 \lst@token=\toks22
-\lst@length=\count292
-\lst@currlwidth=\dimen165
-\lst@column=\count293
-\lst@pos=\count294
-\lst@lostspace=\dimen166
-\lst@width=\dimen167
-\lst@newlines=\count295
-\lst@lineno=\count296
-\lst@maxwidth=\dimen168
- (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
-\c@lstnumber=\count297
-\lst@skipnumbers=\count298
-\lst@framebox=\box100
-) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2023/02/27 1.9 listings configuration
+\lst@length=\count301
+\lst@currlwidth=\dimen166
+\lst@column=\count302
+\lst@pos=\count303
+\lst@lostspace=\dimen167
+\lst@width=\dimen168
+\lst@newlines=\count304
+\lst@lineno=\count305
+\lst@maxwidth=\dimen169
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count306
+\lst@skipnumbers=\count307
+\lst@framebox=\box101
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
 ))
-Package: listings 2023/02/27 1.9 (Carsten Heinz)
- (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
- (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 274.
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1354.
-Package xcolor Info: Model `RGB' extended on input line 1366.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
-) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2024-01-20 v7.01h Hypertext links for LaTeX
- (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
-) (/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+(/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-) (/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
- (/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
- (/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)) (/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+))
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
-Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
- (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count299
-) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count300
+\c@section@level=\count308
 )
-\@linkdim=\dimen169
-\Hy@linkcounter=\count301
-\Hy@pagecounter=\count302
- (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2024-01-20 v7.01h Hyperref: PDFDocEncoding definition (HO)
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count309
+)
+(/usr/share/texlive/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen170
+\Hy@linkcounter=\count310
+\Hy@pagecounter=\count311
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count303
- (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2024-01-20 v7.01h Hyperref: PDF Unicode definition (HO)
+\Hy@SavedSpaceFactor=\count312
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Hyper figures OFF on input line 4179.
-Package hyperref Info: Link nesting OFF on input line 4184.
-Package hyperref Info: Hyper index ON on input line 4187.
-Package hyperref Info: Plain pages OFF on input line 4194.
-Package hyperref Info: Backreferencing OFF on input line 4199.
+Package hyperref Info: Hyper figures OFF on input line 4157.
+Package hyperref Info: Link nesting OFF on input line 4162.
+Package hyperref Info: Hyper index ON on input line 4165.
+Package hyperref Info: Plain pages OFF on input line 4172.
+Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4446.
-\c@Hy@tempcnt=\count304
- (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
-\Urlmuskip=\muskip16
+Package hyperref Info: Bookmarks ON on input line 4424.
+\c@Hy@tempcnt=\count313
+
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4784.
-\XeTeXLinkMargin=\dimen170
- (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen171
+
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
- (/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
 ))
-\Fld@menulength=\count305
-\Field@Width=\dimen171
-\Fld@charsize=\dimen172
-Package hyperref Info: Hyper figures OFF on input line 6063.
-Package hyperref Info: Link nesting OFF on input line 6068.
-Package hyperref Info: Hyper index ON on input line 6071.
-Package hyperref Info: backreferencing OFF on input line 6078.
-Package hyperref Info: Link coloring OFF on input line 6083.
-Package hyperref Info: Link coloring with OCG OFF on input line 6088.
-Package hyperref Info: PDF/A mode OFF on input line 6093.
- (/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+\Fld@menulength=\count314
+\Field@Width=\dimen172
+\Fld@charsize=\dimen173
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring OFF on input line 6062.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count306
-\c@Item=\count307
-\c@Hfootnote=\count308
+\Hy@abspage=\count315
+\c@Item=\count316
+\c@Hfootnote=\count317
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
- (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2024-01-20 v7.01h Hyperref driver for pdfTeX
- (/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
-Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-11-05 v7.01l Hyperref driver for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
 with kernel methods
 )
-\Fld@listcount=\count309
-\c@bookmark@seq@number=\count310
- (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+\Fld@listcount=\count318
+\c@bookmark@seq@number=\count319
+
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
- (/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
 )
-\Hy@SectionHShift=\skip52
-) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2023/05/13 v2.17o AMS math features
-\@mathmargin=\skip53
+\Hy@SectionHShift=\skip53
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip54
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
- (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks23
-\ex@=\dimen173
-)) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+\ex@=\dimen174
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen174
-) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+\pmbraise@=\dimen175
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count311
-LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count312
-\leftroot@=\count313
-LaTeX Info: Redefining \overline on input line 399.
-LaTeX Info: Redefining \colon on input line 410.
-\classnum@=\count314
-\DOTSCASE@=\count315
-LaTeX Info: Redefining \ldots on input line 496.
-LaTeX Info: Redefining \dots on input line 499.
-LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box101
-\strutbox@=\box102
-LaTeX Info: Redefining \big on input line 722.
-LaTeX Info: Redefining \Big on input line 723.
-LaTeX Info: Redefining \bigg on input line 724.
-LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen175
-LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\inf@bad=\count320
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count321
+\leftroot@=\count322
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count323
+\DOTSCASE@=\count324
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box102
+\strutbox@=\box103
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen176
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
 
 
 Package amsmath Warning: Unable to redefine math accent \vec.
 
-\macc@depth=\count316
-LaTeX Info: Redefining \bmod on input line 905.
-LaTeX Info: Redefining \pmod on input line 910.
-LaTeX Info: Redefining \smash on input line 940.
-LaTeX Info: Redefining \relbar on input line 970.
-LaTeX Info: Redefining \Relbar on input line 971.
-\c@MaxMatrixCols=\count317
-\dotsspace@=\muskip17
-\c@parentequation=\count318
-\dspbrk@lvl=\count319
+\macc@depth=\count325
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count326
+\dotsspace@=\muskip18
+\c@parentequation=\count327
+\dspbrk@lvl=\count328
 \tag@help=\toks24
-\row@=\count320
-\column@=\count321
-\maxfields@=\count322
+\row@=\count329
+\column@=\count330
+\maxfields@=\count331
 \andhelp@=\toks25
-\eqnshift@=\dimen176
-\alignsep@=\dimen177
-\tagshift@=\dimen178
-\tagwidth@=\dimen179
-\totwidth@=\dimen180
-\lineht@=\dimen181
+\eqnshift@=\dimen177
+\alignsep@=\dimen178
+\tagshift@=\dimen179
+\tagwidth@=\dimen180
+\totwidth@=\dimen181
+\lineht@=\dimen182
 \@envbody=\toks26
-\multlinegap=\skip54
-\multlinetaggap=\skip55
+\multlinegap=\skip55
+\multlinetaggap=\skip56
 \mathdisplay@stack=\toks27
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
 ) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count323
-\l__pdf_internal_box=\box103
-) (./MKA_v4_article.aux)
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count332
+\l__pdf_internal_box=\box104
+)
+(./MKA_v4_article.aux)
 \openout1 = `MKA_v4_article.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
@@ -406,448 +458,119 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
- (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count324
-\scratchdimen=\dimen182
-\scratchbox=\box104
-\nofMPsegments=\count325
-\nofMParguments=\count326
+\scratchcounter=\count333
+\scratchdimen=\dimen183
+\scratchbox=\box105
+\nofMPsegments=\count334
+\nofMParguments=\count335
 \everyMPshowfont=\toks28
-\MPscratchCnt=\count327
-\MPscratchDim=\dimen183
-\MPnumerator=\count328
-\makeMPintoPDFobject=\count329
+\MPscratchCnt=\count336
+\MPscratchDim=\dimen184
+\MPnumerator=\count337
+\makeMPintoPDFobject=\count338
 \everyMPtoPDFconversion=\toks29
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
- (/usr/share/texlive/texmf-dist/tex/latex/grfext/grfext.sty
+
+(/usr/share/texlive/texmf-dist/tex/latex/grfext/grfext.sty
 Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
 )
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
 Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 504.
- (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
 ))
-\c@lstlisting=\count330
+\c@lstlisting=\count339
 Package hyperref Info: Link coloring OFF on input line 9.
+
+(./MKA_v4_article.out) (./MKA_v4_article.out)
 \@outlinefile=\write3
 \openout3 = `MKA_v4_article.out'.
 
- [1
+
+
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-</home/halil/.gemini/antigravity/brain/1ff4486a-9501-4b9d-a922-80c78c4e0401/mka_protocol_diagram_1780302403243.png, id=18, 246.6816pt x 246.6816pt>
-File: /home/halil/.gemini/antigravity/brain/1ff4486a-9501-4b9d-a922-80c78c4e0401/mka_protocol_diagram_1780302403243.png Graphic file (type png)
-<use /home/halil/.gemini/antigravity/brain/1ff4486a-9501-4b9d-a922-80c78c4e0401/mka_protocol_diagram_1780302403243.png>
-Package pdftex.def Info: /home/halil/.gemini/antigravity/brain/1ff4486a-9501-4b9d-a922-80c78c4e0401/mka_protocol_diagram_1780302403243.png  used on input line 34.
-(pdftex.def)             Requested size: 312.40906pt x 312.43898pt.
-
-
-/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex:35: LaTeX Error: Unicode character ↔ (U+2194)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.35 ... protocol flow (Initiator ↔ Responder).}
-                                                  
-You may provide a definition with
-\DeclareUnicodeCharacter 
 
 [2]
-/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex:57: Missing $ inserted.
-<inserted text> 
-                $
-l.57 ...estriction rules (using \texttt{_restrict}
-                                                  ) to enforce that the Serv...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
 
-/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex:57: Extra }, or forgotten $.
-<recently read> \egroup 
-                        
-l.57 ...estriction rules (using \texttt{_restrict}
-                                                  ) to enforce that the Serv...
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
+[3]
 
-/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex:58: Missing $ inserted.
-<inserted text> 
-                $
-l.58 \section
-             {Model Formalization in Tamarin}
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (780.62381pt too wide) in paragraph at lines 57--58
-\OT1/cmr/m/n/10 (us-ing $[]\OML/cmm/m/it/10 estrict\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 toenforcethattheServercanonlyacceptmessageswithvalidMACs:Theverificationofeachlemmainvolvesanexhaustiveexplorationofallpossibleinterleavingsandadversarialactions; providingstrongformalguaranteesaboutprotocolcorrectness:$ 
- []
-
-
-Overfull \hbox (34.65312pt too wide) in paragraph at lines 59--60
-\OT1/cmtt/m/n/10 The following listing contains the complete Tamarin model (MKA[]v4.spthy).
- []
-
-
-Overfull \hbox (4.6234pt too wide) in paragraph at lines 59--60
-\OT1/cmtt/m/n/10 It defines the built[]in primitives, functions, equations, rules for
- []
-
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2023/02/27 1.9 listings language file
-) (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang2.sty
-File: lstlang2.sty 2023/02/27 1.9 listings language file
-) (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang3.sty
-File: lstlang3.sty 2023/02/27 1.9 listings language file
-)
-
-/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex:61: Package Listings Error: Couldn't load requested language.
-
-See the Listings package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.61 \begin{lstlisting}[language=Spthy]
-                                       
-The following languages weren't loadable:
-    ,spthy$
-This may cause errors in the sequel.
-
-
-/home/halil/Desktop/GitHub/MKA_tamarin/article/MKA_v4_article.tex:61: Package Listings Error: language spthy undefined.
-
-See the Listings package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.61 \begin{lstlisting}[language=Spthy]
-                                       
-The language is not loadable. Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \vbox (badness 3701) has occurred while \output is active []
-
- [3 </home/halil/.gemini/antigravity/brain/1ff4486a-9501-4b9d-a922-80c78c4e0401/mka_protocol_diagram_1780302403243.png>] [4]
+[4]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5]
+
+
+[5]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6]
-Overfull \hbox (41.37308pt too wide) in paragraph at lines 242--243
-\OT1/cmtt/m/n/10 We verify the following security lemmas using Tamarin. Each lemma formally
- []
 
 
+[6]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [7]
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 245.
-
-Overfull \hbox (20.37326pt too wide) in paragraph at lines 245--246
-\OT1/cmtt/m/n/10 Lemma (executable): There exists a valid execution trace in which both
- []
 
 
-Overfull \hbox (9.87335pt too wide) in paragraph at lines 245--246
-\OT1/cmtt/m/n/10 the initial session and the re-keying session complete successfully.
- []
-
-
-Overfull \hbox (4.6234pt too wide) in paragraph at lines 245--246
-\OT1/cmtt/m/n/10 This lemma is an existence proof, ensuring that the protocol is not
- []
-
-
-Overfull \hbox (20.37326pt too wide) in paragraph at lines 245--246
-\OT1/cmtt/m/n/10 over-constrained and that at least one valid protocol run is possible. 
- []
-
-
-Overfull \hbox (34.65312pt too wide) in paragraph at lines 248--249
-\OT1/cmtt/m/n/10 Lemma (initial[]agreement): If the initial session completes on the Server
- []
-
-
-Overfull \hbox (9.87335pt too wide) in paragraph at lines 248--249
-\OT1/cmtt/m/n/10 side, then the Key Server must have sent a SAK message with the same
- []
-
-
-Overfull \hbox (9.87335pt too wide) in paragraph at lines 248--249
-\OT1/cmtt/m/n/10 session identifier and key material. This ensures that the Server is
- []
-
-
-Overfull \hbox (28.6533pt too wide) in paragraph at lines 250--251
-[]\OT1/cmtt/m/n/10 Lemma (rekey[]agreement): Similarly, if a re-keying session completes,
- []
-
-
-Overfull \hbox (30.87317pt too wide) in paragraph at lines 250--251
-\OT1/cmtt/m/n/10 the Key Server must have sent the corresponding re-key SAK. This extends
- []
-
-
-Overfull \hbox (17.84567pt too wide) in paragraph at lines 252--253
-[]\OT1/cmtt/m/n/10 These lemmas provide \OT1/cmtt/m/it/10 aliveness \OT1/cmtt/m/n/10 and \OT1/cmtt/m/it/10 authentication\OT1/cmtt/m/n/10 ---they guarantee
- []
-
-
-Overfull \hbox (25.62321pt too wide) in paragraph at lines 252--253
-\OT1/cmtt/m/n/10 that the Server does not accept spurious or replayed messages, but only
- []
-
-
-Overfull \hbox (12.1833pt too wide) in paragraph at lines 255--256
-\OT1/cmtt/m/n/10 Lemma (injective[]initial[]agreement): If the initial session completes
- []
-
-
-Overfull \hbox (13.31848pt too wide) in paragraph at lines 255--256
-\OT1/cmtt/m/n/10 at time $\OML/cmm/m/it/10 i$\OT1/cmtt/m/n/10 , then there exists a unique transmission of the initial SAK
- []
-
-
-Overfull \hbox (15.1233pt too wide) in paragraph at lines 255--256
-\OT1/cmtt/m/n/10 This property prevents replay attacks where an attacker might capture
- []
-
-
-Overfull \hbox (62.3729pt too wide) in paragraph at lines 255--256
-\OT1/cmtt/m/n/10 and re-inject an old key agreement message to cause the Server to re-establish
- []
-
-
-Overfull \hbox (37.68321pt too wide) in paragraph at lines 257--258
-[]\OT1/cmtt/m/n/10 Lemma (injective[]rekey[]agreement): The same injective guarantee applies
- []
-
-
-Overfull \hbox (15.1233pt too wide) in paragraph at lines 257--258
-\OT1/cmtt/m/n/10 to the re-keying phase. An attacker cannot replay old re-key messages
- []
-
-
-Overfull \hbox (3.87354pt too wide) in paragraph at lines 259--260
-[]\OT1/cmtt/m/n/10 Injective agreement is stronger than plain agreement; it ensures
- []
-
-
-Overfull \hbox (41.37308pt too wide) in paragraph at lines 259--260
-\OT1/cmtt/m/n/10 that each message is ``used'' at most once, eliminating a class of attacks
- []
-
-
-Overfull \hbox (25.62321pt too wide) in paragraph at lines 259--260
-\OT1/cmtt/m/n/10 where cryptographic material could be replayed across multiple protocol
- []
-
-
-Overfull \hbox (6.93335pt too wide) in paragraph at lines 262--263
-\OT1/cmtt/m/n/10 Lemma (initial[]key[]confirmation): When the initial session completes
- []
-
-
-Overfull \hbox (25.62321pt too wide) in paragraph at lines 262--263
-\OT1/cmtt/m/n/10 on the Key Server side, the Key Server receives an acknowledgment (ACK)
- []
-
-
-Overfull \hbox (15.1233pt too wide) in paragraph at lines 262--263
-\OT1/cmtt/m/n/10 from the Server, confirming that the Server has received and accepted
- []
-
-
-Overfull \hbox (11.43344pt too wide) in paragraph at lines 264--265
-[]\OT1/cmtt/m/n/10 Lemma (rekey[]key[]confirmation): Similarly, the Key Server receives
- []
-
-
-Overfull \hbox (15.1233pt too wide) in paragraph at lines 264--265
-\OT1/cmtt/m/n/10 an ACK for the re-key phase. Key confirmation is important because it
- []
-
-
-Overfull \hbox (20.37326pt too wide) in paragraph at lines 264--265
-\OT1/cmtt/m/n/10 assures the initiator that the responder has successfully obtained the
- []
+[7]
 
 [8]
-Overfull \hbox (19.74321pt too wide) in paragraph at lines 267--268
-\OT1/cmtt/m/n/10 Lemma (initial[]sak[]secrecy[]no[]reveal): If the initial session completes
+Overfull \hbox (3.75781pt too wide) in paragraph at lines 316--317
+[]\OT1/cmr/bx/n/10 Lemma (rekey[]sak[]secrecy[]no[]reveal): \OT1/cmr/m/n/10 The
+ same se-crecy guar-an-tee holds
  []
 
 
-Overfull \hbox (4.6234pt too wide) in paragraph at lines 267--268
-\OT1/cmtt/m/n/10 and the SAK is not revealed (i.e., not exposed through an adversary
+Overfull \hbox (1.42805pt too wide) in paragraph at lines 318--319
+[]\OT1/cmr/bx/n/10 Lemma (cak[]secrecy[]no[]reveal): \OT1/cmr/m/n/10 The long-t
+erm CAK re-mains se-cret from
  []
 
 
-Overfull \hbox (4.6234pt too wide) in paragraph at lines 267--268
-\OT1/cmtt/m/n/10 compromise rule), then the attacker cannot learn the SAK. Formally,
- []
-
-
-Overfull \hbox (0.60971pt too wide) in paragraph at lines 267--268
-\OT1/cmtt/m/n/10 there is no trace point at which the attacker has knowledge $\OML/cmm/m/it/10 K\OT1/cmr/m/n/10 ([])$
- []
-
-
-Overfull \hbox (24.2433pt too wide) in paragraph at lines 269--270
-[]\OT1/cmtt/m/n/10 Lemma (rekey[]sak[]secrecy[]no[]reveal): The same secrecy guarantee holds
- []
-
-
-Overfull \hbox (20.46335pt too wide) in paragraph at lines 271--272
-[]\OT1/cmtt/m/n/10 Lemma (cak[]secrecy[]no[]reveal): The long-term CAK remains secret from
- []
-
-
-Overfull \hbox (41.37308pt too wide) in paragraph at lines 271--272
-\OT1/cmtt/m/n/10 the attacker as long as it is not explicitly revealed through a compromise
- []
-
-
-Overfull \hbox (20.37326pt too wide) in paragraph at lines 271--272
-\OT1/cmtt/m/n/10 rule. This property depends on the assumption that the CAK is securely
- []
-
-
-Overfull \hbox (19.6234pt too wide) in paragraph at lines 273--274
-[]\OT1/cmtt/m/n/10 These secrecy lemmas are conditional on the adversary not obtaining
- []
-
-
-Overfull \hbox (51.87299pt too wide) in paragraph at lines 273--274
-\OT1/cmtt/m/n/10 the keys through compromise rules. In practice, this reflects the assumption
- []
-
-
-Overfull \hbox (9.87335pt too wide) in paragraph at lines 273--274
-\OT1/cmtt/m/n/10 that cryptographic material stored on honest parties is protected by
- []
-
-
-Overfull \hbox (4.6234pt too wide) in paragraph at lines 273--274
-\OT1/cmtt/m/n/10 the underlying system (e.g., via Trusted Platform Modules or secure
- []
-
-
-Overfull \hbox (26.46317pt too wide) in paragraph at lines 276--277
-\OT1/cmtt/m/n/10 Lemma (rekey[]after[]initial[]completion): Any re-keying session must occur
- []
-
-
-Overfull \hbox (36.12312pt too wide) in paragraph at lines 276--277
-\OT1/cmtt/m/n/10 causally after the initial session has completed. Formally, if the re-key
- []
-
-
-Overfull \hbox (13.31848pt too wide) in paragraph at lines 276--277
-\OT1/cmtt/m/n/10 session completes at time $\OML/cmm/m/it/10 i$\OT1/cmtt/m/n/10 , then there must be a prior completion of
- []
-
-
-Overfull \hbox (20.84229pt too wide) in paragraph at lines 276--277
-\OT1/cmtt/m/n/10 the initial session at time $\OML/cmm/m/it/10 j < i$\OT1/cmtt/m/n/10 . This lemma ensures that the protocol
- []
-
-
-Overfull \hbox (57.12294pt too wide) in paragraph at lines 276--277
-\OT1/cmtt/m/n/10 respects the intended ordering: the initial key agreement must be established
- []
-
-
-Overfull \hbox (67.62285pt too wide) in paragraph at lines 276--277
-\OT1/cmtt/m/n/10 before any re-keying can take place, preventing out-of-order state transitions. 
- []
-
-
-Overfull \hbox (14.37344pt too wide) in paragraph at lines 278--279
-[]\OT1/cmtt/m/n/10 Together, these lemmas provide a comprehensive formal guarantee of
- []
-
-
-Overfull \hbox (15.1233pt too wide) in paragraph at lines 278--279
-\OT1/cmtt/m/n/10 the MKA protocol's security: they ensure that the protocol implements
- []
-
-
-Overfull \hbox (25.62321pt too wide) in paragraph at lines 278--279
-\OT1/cmtt/m/n/10 mutual authentication, prevents replay attacks, confirms key reception,
- []
-
-
-Overfull \hbox (4.6234pt too wide) in paragraph at lines 278--279
-\OT1/cmtt/m/n/10 maintains key secrecy, and respects the intended causal ordering of
- []
-
-
-Overfull \hbox (36.12312pt too wide) in paragraph at lines 281--282
-\OT1/cmtt/m/n/10 The formal analysis demonstrates that the enhanced MKA protocol satisfies
- []
-
-
-Overfull \hbox (9.87335pt too wide) in paragraph at lines 281--282
-\OT1/cmtt/m/n/10 the desired security goals. Future work includes extending the model
- []
-
-
-Overfull \hbox (62.3729pt too wide) in paragraph at lines 281--282
-\OT1/cmtt/m/n/10 to cover adversarial control of the underlying Ethernet medium and integrating
- []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 288--289
-[]\OT1/cmtt/m/n/9 IEEE Std 802.1X-2020, \Port[]Based Network Access Control," IEEE,
- []
 
 [10] (./MKA_v4_article.aux)
  ***********
-LaTeX2e <2023-11-01> patch level 1
-L3 programming layer <2024-01-22>
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `MKA_v4_article.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `MKA_v4_article.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  528C10A7642351EE0F82423B710320CC;487.
- )
-(\end occurred inside a group at level 1)
-
-### simple group (level 1) entered at line 57 ({)
-### bottom level 
+Package rerunfilecheck Info: File `MKA_v4_article.out' has not changed.
+(rerunfilecheck)             Checksum: 528C10A7642351EE0F82423B710320CC;487.
+ ) 
 Here is how much of TeX's memory you used:
- 11829 strings out of 474222
- 178035 string characters out of 5748733
- 2221975 words of memory out of 5000000
- 33751 multiletter control sequences out of 15000+600000
- 561655 words of font info for 51 fonts, out of 8000000 for 9000
+ 12010 strings out of 473197
+ 179745 string characters out of 5718606
+ 928547 words of memory out of 5000000
+ 34880 multiletter control sequences out of 15000+600000
+ 564586 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,6n,79p,1505b,2051s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MKA_v4_article.pdf (10 pages, 601098 bytes).
+ 75i,7n,79p,1458b,1954s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
+t8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+
+Output written on MKA_v4_article.pdf (10 pages, 199750 bytes).
 PDF statistics:
- 353 PDF objects out of 1000 (max. 8388607)
- 314 compressed objects within 4 object streams
- 212 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 417 PDF objects out of 1000 (max. 8388607)
+ 377 compressed objects within 4 object streams
+ 257 named destinations out of 1000 (max. 500000)
+ 9 words of extra memory for PDF output out of 10000 (max. 10000000)
 
