@@ -101,7 +101,7 @@ rule Initial_KeyServer_Send:
     InitialSessionStarted(mn,kn)
   ]->
   [ Out(<$Keyserver,mn,kn,c1,icv1>),
-    InitialPending(cak,mn,kn,sak1),
+    
     !StoredSAK(mn,sak1),
     KSSTATE0(mn,kn) ]
 
@@ -114,22 +114,22 @@ rule Initial_Server_Receive:
     mn1 = count(mn)
     icv2 = mac(<$Server,mn1,kn>,ick)
   in
-  [ In(<$Keyserver,mn,kn,c1,icv1>), !SharedCAK(cak), KSSTATE0(mn,kn) ]--[
+  [ In(<$Keyserver,mn,kn,c1,icv1>), !SharedCAK(cak) ]--[
     _restrict(macverify(icv1,<$Keyserver,mn,c1>,ick)=mactrue),
     InitialSessionEstablished(mn1,kn,sak1),
     InitialAckPrepared(mn1,kn,sak1)
   ]->
   [ Out(<$Server,mn1,kn,icv2>),
-    KSTATE1(mn1,kn) ]
+    SSTATE1(mn1,kn) ]
 
 // KeyServer, Server'dan gelen onayı alır ve ilk oturumun başarıyla tamamlandığını işaretler.
 rule Initial_KeyServer_Confirm:
   let
     kek = kdf(cak,'KEK')
     ick = kdf(cak,'ICK')
-    mn1 = count(mn)
+    
   in
-  [ InitialPending(cak,mn,kn,sak1),
+  [ 
     In(<$Server,mn1,kn,icv2>),
     !SharedCAK(cak),
     KSSTATE0(mn,kn) ]--[
@@ -146,13 +146,13 @@ rule Rekey_KeyServer_Send:
   let
     kek = kdf(cak,'KEK')
     ick = kdf(cak,'ICK')
-    mn2 = ~mn2
-    kn1 = ~kn1
-    sak2 = kdf(cak,<mn2,$Keyserver>)
+    mn2 = count(mn1)
+    kn1 = count(kn)
+    sak2 = kdf(cak,< mn2, $Keyserver>)
     c2 = senc(sak2,kek)
     icv3 = mac(<$Keyserver,mn2,c2>,ick)
   in
-  [ !SharedCAK(cak), KSSTATE1(mn1,kn), Fr(~mn2), Fr(~kn1), !InitialDone(cak,mn,kn,sak1) ]--[
+  [ !SharedCAK(cak), KSSTATE1(mn1,kn), !InitialDone(cak,mn,kn,sak1) ]--[
     SentRekeySAK(mn2,kn1,sak2),
     SecretSAK(mn2,sak2),
     RekeyStarted(mn2,kn1)
@@ -171,13 +171,14 @@ rule Rekey_Server_Receive:
     mn3 = count(mn2)
     icv4 = mac(<$Server,mn3,kn1>,ick)
   in
-  [ In(<$Keyserver,mn2,kn1,c2,icv3>), !SharedCAK(cak), KSSTATE2(mn2,kn1) ]--[
+  [ In(<$Keyserver,mn2,kn1,c2,icv3>), !SharedCAK(cak), SSTATE1(mn1,kn) ]--[
+    _restrict(mn2 = count(mn1))
     _restrict(macverify(icv3,<$Keyserver,mn2,c2>,ick)=mactrue),
     RekeySessionEstablished(mn3,kn1,sak2),
     RekeyAckPrepared(mn3,kn1,sak2)
   ]->
   [ Out(<$Server,mn3,kn1,icv4>),
-    KSTATE2(mn3,kn1) ]
+    SSTATE2(mn3,kn1) ]
 
 // KeyServer, Server'dan rekey onayını alır ve rekey oturumunun başarıyla tamamlandığını işaretler.
 rule Rekey_KeyServer_Confirm:
