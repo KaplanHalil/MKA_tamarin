@@ -1,0 +1,65 @@
+***** Simplified MKA Protocol with Rekey *****
+
+KeyServer                                                  Server
+    |                                                         |
+    |========== Pre-Shared CAK ==============================>|
+    |                                                         |
+    | KEK = KDF(CAK, "KEK")                                   |
+    | ICK = KDF(CAK, "ICK")                                   |
+    | MN   = Fresh()                                          |
+    | SAK1 = KDF(CAK, <MN, $Keyserver>)                       |
+    | KN   = Fresh()                                          |
+    | C1   = Enc(SAK1, KEK)                                   |
+    | ICV1 = MAC(<$Keyserver, MN, KN, C1>, ICK)               |
+    | MKAPDU0_keyserver = <$Keyserver, MN, KN, C1, ICV1>      |
+    | KSSTATE0(MN, KN)                                        |
+    |--------------------(MKAPDU0_keyserver)----------------->|
+    |                                                         |
+    |                                    ICK = KDF(CAK, "ICK")|
+    |                                    KEK = KDF(CAK, "KEK")|
+    |                                restrict(ICV1 mac verify)|
+    |                                           SAK1 = Dec(C1)|
+    |                                          MN1 = Count(MN)|
+    |                      ICV2 = MAC(<$Server, MN1, KN>, ICK)|
+    |                MKAPDU0_server = <$Server, MN1, KN, ICV2>|
+    |                                          SState(MN1, KN)|
+    |							      |
+    |<--------------------(MKAPDU0_server)--------------------|
+    | In(KSSTATE0(MN, KN))                                    |
+    | restrict(MN1 = Count(MN))                               |
+    | restrict(KN(Keyserver state) = KN)                      |
+    | restrict(ICV2 MAC verify)                               |
+    | KSTATE1(MN1, KN)                                        |
+    |                                                         |
+    |============= Shared Fresh SAK1 =========================|
+    |                                                         |
+    |------------ Periodic Rekey Trigger ---------------------|
+    | In(KSSTATE1(MN1, KN))                                   |
+    | KEK = KDF(CAK, "KEK")                                   |
+    | ICK = KDF(CAK, "ICK")                                   |
+    | MN2  = Count(MN1)                                       |
+    | SAK2 = KDF(CAK, <MN2, $Keyserver>)                      |
+    | KN1  = Count(KN)                                        |
+    | C2   = Enc(SAK2, KEK)                                   |
+    | ICV3 = MAC(<$Keyserver, MN2, KN1, C2>, ICK)             |
+    | MKAPDU1_keyserver = <$Keyserver, MN2, KN1, C2, ICV3>    |
+    | KSTATE2(MN2, KN1)                                       |
+    |--------------------(MKAPDU1_keyserver)----------------->|
+    |                                                         |
+    |                                    ICK = KDF(CAK, "ICK")|
+    |                                    KEK = KDF(CAK, "KEK")|
+    |                                restrict(ICV3 mac verify)|
+    |                                restrict(MN2 = count(MN1)|
+    |                                           SAK2 = Dec(C2)|
+    |                                         MN3 = Count(MN2)|
+    |                     ICV4 = MAC(<$Server, MN3, KN1>, ICK)|
+    |               MKAPDU1_server = <$Server, MN3, KN1, ICV4>|
+    |                                                         |
+    |<--------------------(MKAPDU1_server)--------------------|
+    | In(KSSTATE2(MN2, KN1))                                  |
+    | restrict(MN3 = Count(MN2))                              |
+    | restrict(KN(Keyserver state) = KN1)                     |
+    |                                                         |
+    |============= Shared Fresh SAK2 =========================|
+    |                                                         |
+    |============= DONE ======================================|
