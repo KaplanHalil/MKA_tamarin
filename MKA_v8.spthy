@@ -1,0 +1,268 @@
+theory MKA_v8
+
+begin
+
+builtins: symmetric-encryption
+
+functions:
+  kdf/2,
+  count/1,
+  mac/2,
+  macverify/3,
+  mactrue/0
+
+equations:
+  macverify(mac(M,K),M,K) = mactrue
+
+// Paylaşılan CAK'ı sisteme yükler ve uzun vadeli bir gerçek olarak depolar.
+rule Setup_CAK:
+  [ Fr(~cak) ]
+  --[ CAKSetup(~cak) ]->
+  [ !SharedCAK(~cak) ]
+
+// SAK'ın saldırgan tarafından açığa çıkması için kullanılan ödün kuralı.
+rule Reveal_SAK:
+  [ KSSTATE0(mn,kn,sak) ]
+  --[ RevealSAK(mn,kn,sak) ]->
+  [ Out(sak) ]
+
+// CAK'ın saldırgan tarafından açığa çıkması için kullanılan ödün kuralı.
+rule Reveal_CAK:
+  [ !SharedCAK(~cak) ]
+  --[ RevealCAK(~cak) ]->
+  [ Out(~cak) ]
+
+// KeyServer, ilk oturum için SAK'ı türetir, KEK ile şifreler, ICK ile MAC'lar ve Server'a gönderir.
+rule Initial_KeyServer_Send:
+  let
+    kek = kdf(~cak,'KEK')
+    ick = kdf(~cak,'ICK')
+    sak1 = kdf(~cak,<$Keyserver, ~kn, ~KS_nonce0>)
+    c1 = senc(sak1,kek)
+    icv1 = mac(<$Keyserver, ~mn_ks, ~kn, c1 >, ick)
+  in
+  [ !SharedCAK(~cak), Fr(~mn_ks), Fr(~kn), Fr(~KS_nonce0) ]--[
+    SentInitialSAK(count(~mn_ks),~kn,sak1)
+  ]->
+  [ Out(<$Keyserver,~mn_ks,~kn,c1,icv1>),
+    KSSTATE0(~mn_ks, ~kn, sak1) ]
+
+// Server, gelen şifreli yükü doğrular, MAC'ı kontrol eder, SAK'ı çözer ve bir onay (ACK) gönderir.
+rule Initial_Server_Receive:
+  let
+    kek = kdf(~cak,'KEK')
+    ick = kdf(~cak,'ICK')
+    sak1 = sdec(c1,kek)
+    icv2 = mac(<$Server, mn_s, ~kn>, ick)
+  in
+  [ In(<$Keyserver,~mn_ks,~kn,c1,icv1>), !SharedCAK(~cak), Fr(~mn_s) ]--[
+    _restrict(macverify(icv1,<$Keyserver, ~mn_ks, ~kn ,c1>,ick)=mactrue),
+    InitialAckPrepared(mn_ks,~kn)
+  ]->
+  [ Out(<$Server,mn_s,~kn,icv2>),
+    SSTATE1(mn_ks, mn_s, ~kn, sak1) ]
+
+// KeyServer, Server'dan gelen onayı alır ve ilk oturumun başarıyla tamamlandığını işaretler.
+rule Initial_KeyServer_Confirm:
+  let
+    ick = kdf(~cak,'ICK')
+  in
+  [ 
+    In(<$Server,mn_s,kn_server,icv2>),
+    !SharedCAK(~cak),
+    KSSTATE0(~mn_ks, ~kn, sak1) ]--[
+    _restrict(macverify(icv2,<$Server, mn_s, ~kn>,ick)=mactrue),
+    _restrict(~kn = kn_server),
+    InitialSessionCompleted(mn_ks,~kn,sak1)
+  ]->
+  [ 
+    KSSTATE1(mn_ks,~kn,sak1) ]
+
+// KeyServer, ilk oturum tamamlandıktan sonra yeni bir SAK ile rekey işlemini başlatır.
+rule Rekey_KeyServer_Send:
+  let
+    kek = kdf(~cak,'KEK')
+    ick = kdf(~cak,'ICK')
+    mn_ks1 = count(mn_ks)
+    kn1 = count(~kn)
+    sak2 = kdf(~cak,<$Keyserver, kn1, ~KS_nonce1>)
+    c2 = senc(sak2,kek)
+    icv3 = mac(<$Keyserver,mn_ks1,kn1,c2>,ick)
+  in
+  [ !SharedCAK(~cak), KSSTATE1(mn_ks,~kn,sak1), Fr(~KS_nonce1) ]--[
+    SentRekeySAK(mn_ks1,kn1,sak2),
+    RekeyStarted(mn_ks1,kn1)
+  ]->
+  [ Out(<$Keyserver,mn_ks1,kn1,c2,icv3>),
+    
+    KSSTATE2(mn_ks1, kn1, mn_s, sak1, sak2) ]
+
+// Server, rekey SAK'ını alır, doğrular, çözer ve bir onay gönderir.
+rule Rekey_Server_Receive:
+  let
+    kek = kdf(~cak,'KEK')
+    ick = kdf(~cak,'ICK')
+    sak2 = sdec(c2,kek)
+    mn_s1 = count(mn_s)
+    icv4 = mac(<$Server,mn_s1,kn1>,ick)
+  in
+  [ In(<$Keyserver,mn_ks1,kn1,c2,icv3>), !SharedCAK(~cak), SSTATE1(mn_ks, mn_s, ~kn, sak1) ]--[
+    _restrict(mn_ks1 = count(mn_ks)),
+    _restrict(macverify(icv3,<$Keyserver, mn_ks1, kn1, c2>,ick)=mactrue),
+    _restrict(kn1 = count(~kn)),
+    RekeyAckPrepared(mn_ks1,kn1)
+  ]->
+  [ Out(<$Server,mn_s1,kn1,icv4>),
+    SSTATE2(mn_ks, mn_s, ~kn, sak1, sak2, kn1) ]
+
+// KeyServer, Server'dan rekey onayını alır ve rekey oturumunun başarıyla tamamlandığını işaretler.
+rule Rekey_KeyServer_Confirm:
+  let
+    
+    ick = kdf(~cak,'ICK')
+  in
+  [ 
+    In(<$Server,mn_s1,kn1,icv4>),
+    !SharedCAK(~cak),
+    KSSTATE2(mn_ks1, kn1, mn_s, sak1, sak2)  ]--[
+    _restrict(mn_s1 = count(mn_s)),
+    _restrict(macverify(icv4,<$Server, mn_s1, kn1>,ick)=mactrue),
+    RekeySessionCompleted(mn_s1,kn1,sak2)
+  ]->
+  [ ]
+
+lemma executable:
+  exists-trace
+  "
+    Ex mn1 kn sak1 mn3 kn1 sak2 #i #j.
+      InitialSessionCompleted(mn1,kn,sak1)@i
+      & RekeySessionCompleted(mn3,kn1,sak2)@j
+  "
+
+lemma initial_agreement:
+  "
+  All mn kn sak #i.
+    InitialSessionCompleted(mn,kn,sak)@i
+    ==> (Ex #j. SentInitialSAK(mn,kn,sak)@j & #j < #i)
+  "
+
+lemma rekey_agreement:
+  "
+  All mn kn sak #i.
+    RekeySessionCompleted(mn,kn,sak)@i
+    ==> (Ex #j. RekeyStarted(mn,kn)@j & #j < #i)
+  "
+
+lemma initial_key_confirmation:
+  "
+  All mn kn sak #i.
+    InitialSessionCompleted(mn,kn,sak)@i
+    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
+    & not(Ex cak #k. RevealCAK(cak)@k)
+    ==> (Ex #l. InitialAckPrepared(mn,kn)@l & #l < #i)
+  "
+
+lemma rekey_key_confirmation:
+  "
+  All mn kn sak #i.
+    RekeySessionCompleted(mn,kn,sak)@i
+    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
+    & not(Ex cak #k. RevealCAK(cak)@k)
+    ==> (Ex #l. RekeyAckPrepared(mn,kn)@l & #l < #i)
+  "
+
+lemma initial_sak_secrecy_no_reveal:
+  "
+  All mn kn sak #i.
+    InitialSessionCompleted(mn,kn,sak)@i
+    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
+    & not(Ex #k. RevealSAK(mn,kn,sak)@k)
+    & not(Ex cak #l. RevealCAK(cak)@l)
+    ==> not(Ex #m. K(sak)@m)
+  "
+
+lemma rekey_sak_secrecy_no_reveal:
+  "
+  All mn kn sak #i.
+    RekeySessionCompleted(mn,kn,sak)@i
+    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
+    & not(Ex #k. RevealSAK(mn,kn,sak)@k)
+    & not(Ex cak #l. RevealCAK(cak)@l)
+    ==> not(Ex #m. K(sak)@m)
+  "
+
+lemma cak_secrecy_no_reveal:
+  "
+  All cak #i.
+    CAKSetup(cak)@i
+    & not(Ex #j. RevealCAK(cak)@j)
+    ==> not(Ex #k. K(cak)@k)
+  "
+
+lemma no_replay_initial:
+  "
+  All mn kn sak #i #j.
+    InitialSessionCompleted(mn,kn,sak)@i
+    & InitialSessionCompleted(mn,kn,sak)@j
+    ==> #i = #j
+  "
+
+lemma rekey_replay_protection:
+  "
+  All mn2 kn1 #i #j.
+    RekeyAckPrepared(mn2,kn1)@i
+    & RekeyAckPrepared(mn2,kn1)@j
+    ==> #i = #j
+  "
+
+lemma rekey_message_single_use:
+  "
+  All mn2 kn1 c2 icv3 #i #j.
+    RekeyMessage(mn2,kn1,c2,icv3)@i
+    & RekeyMessage(mn2,kn1,c2,icv3)@j
+    ==> #i = #j
+  "
+
+lemma server_authentication_initial:
+  "
+  All mn kn sak #i.
+    InitialSessionCompleted(mn,kn,sak)@i
+    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
+    & not(Ex cak #k. RevealCAK(cak)@k)
+    ==> (Ex #l. InitialAckPrepared(mn,kn)@l & #l < #i)
+  "
+
+lemma server_authentication_rekey:
+  "
+  All mn kn sak #i.
+    RekeySessionCompleted(mn,kn,sak)@i
+    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
+    & not(Ex cak #k. RevealCAK(cak)@k)
+    ==> (Ex #l. RekeyAckPrepared(mn,kn)@l & #l < #i)
+  "
+
+lemma rekey_after_initial_completion:
+  "
+  All mn2 kn1 sak2 #i.
+    RekeySessionCompleted(mn2,kn1,sak2)@i
+    ==> (Ex mn1 kn sak1 #j.
+      InitialSessionCompleted(mn1,kn,sak1)@j & #j < #i)
+  "
+
+lemma rekey_cannot_start_before_initial_completion:
+  "
+  All mn2 kn1 #i.
+    RekeyStarted(mn2,kn1)@i
+    ==> (Ex mn1 kn sak1 #j.
+      InitialSessionCompleted(mn1,kn,sak1)@j & #j < #i)
+  "
+
+// Test amacıyla kasıtlı olarak yazılmış yanlış lemma; bu her zaman falsified olmalıdır.
+lemma test_false_lemma:
+  "
+  All mn kn sak #i.
+    InitialSessionCompleted(mn,kn,sak)@i
+    ==> (Ex #j. FalseFact(mn,kn,sak)@j)
+  "
+
+end

@@ -1,6 +1,6 @@
-theory MKA_v6
+theory MKA_v7
 /*
-***** Simplified MKA Protocol with Rekey *****
+***** Simplified MKA Protocol with Rekey ***** ÇALIŞIYORRRRRRRR
 
 KeyServer                                                  Server
     |                                                         |
@@ -9,58 +9,60 @@ KeyServer                                                  Server
     | KEK = KDF(CAK, "KEK")                                   |
     | ICK = KDF(CAK, "ICK")                                   |
     | MN   = Fresh()                                          |
-    | SAK1 = KDF(CAK, <MN, $Keyserver>)                       |
+    | KS_nonce0 = Fresh()                                     |
     | KN   = Fresh()                                          |
+    | SAK1 = KDF(CAK, <$Keyserver, KN, KS_nonce0 >)           |                                         
     | C1   = Enc(SAK1, KEK)                                   |
-    | ICV1 = MAC(<$Keyserver, MN, KN, C1>, ICK)               |
-    | MKAPDU0_keyserver = <$Keyserver, MN, KN, C1, ICV1>      |
-    | KSSTATE0(MN, KN)                                        |
+    | ICV1 = MAC(<$Keyserver, MN_KS, KN, C1>, ICK)            |
+    | MKAPDU0_keyserver = <$Keyserver, MN_KS, KN, C1, ICV1>   |
+    | KSSTATE0(MN_KS, KN)                                     |
     |--------------------(MKAPDU0_keyserver)----------------->|
     |                                                         |
     |                                    ICK = KDF(CAK, "ICK")|
     |                                    KEK = KDF(CAK, "KEK")|
     |                                restrict(ICV1 mac verify)|
     |                                           SAK1 = Dec(C1)|
-    |                                          MN1 = Count(MN)|
     |                      ICV2 = MAC(<$Server, MN1, KN>, ICK)|
-    |                MKAPDU0_server = <$Server, MN1, KN, ICV2>|
-    |                                          SState(MN1, KN)|
-    |							                                            |
+    |                                           MN_S = Fresh()|
+    |               MKAPDU0_server = <$Server, MN_S, KN, ICV2>|
+    |                            SState(MN_KS, MN_S, KN, SAK1)|
+    |							                              |              
     |<--------------------(MKAPDU0_server)--------------------|
-    | In(KSSTATE0(MN, KN))                                    |
+    | In(KSSTATE0(MN_KS, KN))                                 |
     | restrict(MN1 = Count(MN))                               |
-    | restrict(KN(Keyserver state) = KN)                      |
     | restrict(ICV2 MAC verify)                               |
-    | KSTATE1(MN1, KN)                                        |
+    | KSTATE1(MN_KS, KN, MN_S)                                |
     |                                                         |
     |============= Shared Fresh SAK1 =========================|
     |                                                         |
     |------------ Periodic Rekey Trigger ---------------------|
-    | In(KSSTATE1(MN1, KN))                                   |
+    | In(KSSTATE1(MN_KS, KN, MN_S))                           |
     | KEK = KDF(CAK, "KEK")                                   |
     | ICK = KDF(CAK, "ICK")                                   |
-    | MN2  = Count(MN1)                                       |
-    | SAK2 = KDF(CAK, <MN2, $Keyserver>)                      |
+    | MN_KS1  = Count(MN_KS)                                  |
+    | KS_nonce1 = Fresh()                                     |
     | KN1  = Count(KN)                                        |
+    | SAK2 = KDF(CAK, <$Keyserver, KN1, KS_nonce1>)           |
     | C2   = Enc(SAK2, KEK)                                   |
-    | ICV3 = MAC(<$Keyserver, MN2, KN1, C2>, ICK)             |
-    | MKAPDU1_keyserver = <$Keyserver, MN2, KN1, C2, ICV3>    |
-    | KSTATE2(MN2, KN1)                                       |
+    | ICV3 = MAC(<$Keyserver, MN_KS1, KN1, C2>, ICK)          |
+    | MKAPDU1_keyserver = <$Keyserver, MN_KS1, KN1, C2, ICV3> |
+    | KSTATE2(MN_KS, KN, MN_S, KN1)                           |    
     |--------------------(MKAPDU1_keyserver)----------------->|
-    |                                                         |
+    |                        In(SState(MN_KS, MN_S, KN, SAK1))|
     |                                    ICK = KDF(CAK, "ICK")|
     |                                    KEK = KDF(CAK, "KEK")|
     |                                restrict(ICV3 mac verify)|
-    |                                restrict(MN2 = count(MN1)|
+    |                          restrict(MN_KS1 = count(MN_KS))|
+    |                                restrict(KN1 = count(KN))|
     |                                           SAK2 = Dec(C2)|
-    |                                         MN3 = Count(MN2)|
-    |                     ICV4 = MAC(<$Server, MN3, KN1>, ICK)|
-    |               MKAPDU1_server = <$Server, MN3, KN1, ICV4>|
+    |                                      MN_S2 = Count(MN_S)|
+    |                   ICV4 = MAC(<$Server, MN_S2, KN1>, ICK)|
+    |             MKAPDU1_server = <$Server, MN_S2, KN1, ICV4>|
     |                                                         |
     |<--------------------(MKAPDU1_server)--------------------|
-    | In(KSSTATE2(MN2, KN1))                                  |
-    | restrict(MN3 = Count(MN2))                              |
-    | restrict(KN(Keyserver state) = KN1)                     |
+    | In(KSSTATE2(MN_KS, KN, MN_S, KN1))                      |
+    | restrict(MN_S2 = Count(MN_S))                           |
+    | restrict(KN1 = KN1(In state))                           |
     |                                                         |
     |============= Shared Fresh SAK2 =========================|
     |                                                         |
@@ -95,8 +97,8 @@ rule Reveal_SAK:
 // CAK'ın saldırgan tarafından açığa çıkması için kullanılan ödün kuralı.
 rule Reveal_CAK:
   [ !SharedCAK(~cak) ]
-  --[ RevealCAK(cak) ]->
-  [ Out(cak) ]
+  --[ RevealCAK(~cak) ]->
+  [ Out(~cak) ]
 
 // KeyServer, ilk oturum için SAK'ı türetir, KEK ile şifreler, ICK ile MAC'lar ve Server'a gönderir.
 rule Initial_KeyServer_Send:
@@ -111,7 +113,6 @@ rule Initial_KeyServer_Send:
     SentInitialSAK(count(~mn),~kn,sak1)
   ]->
   [ Out(<$Keyserver,~mn,~kn,c1,icv1>),
-    InitialMessage(~mn,~kn,c1,icv1),
     KSSTATE0(~mn,~kn,sak1) ]
 
 // Server, gelen şifreli yükü doğrular, MAC'ı kontrol eder, SAK'ı çözer ve bir onay (ACK) gönderir.
@@ -121,9 +122,9 @@ rule Initial_Server_Receive:
     ick = kdf(~cak,'ICK')
     sak1 = sdec(c1,kek)
     mn1 = count(~mn)
-    icv2 = mac(<$Server,mn1,kn>,ick)
+    icv2 = mac(<$Server,mn1,~kn>,ick)
   in
-  [ In(<$Keyserver,mn,kn,c1,icv1>), !SharedCAK(~cak), InitialMessage(~mn,~kn,c1,icv1) ]--[
+  [ In(<$Keyserver,~mn,~kn,c1,icv1>), !SharedCAK(~cak) ]--[
     _restrict(macverify(icv1,<$Keyserver, ~mn, ~kn ,c1>,ick)=mactrue),
     InitialAckPrepared(mn1,~kn)
   ]->
@@ -162,7 +163,7 @@ rule Rekey_KeyServer_Send:
     RekeyStarted(mn2,kn1)
   ]->
   [ Out(<$Keyserver,mn2,kn1,c2,icv3>),
-    RekeyMessage(mn2,kn1,c2,icv3),
+    
     KSSTATE2(mn2,kn1) ]
 
 // Server, rekey SAK'ını alır, doğrular, çözer ve bir onay gönderir.
@@ -174,7 +175,7 @@ rule Rekey_Server_Receive:
     mn3 = count(mn2)
     icv4 = mac(<$Server,mn3,kn1>,ick)
   in
-  [ In(<$Keyserver,mn2,kn1,c2,icv3>), !SharedCAK(~cak), RekeyMessage(mn2,kn1,c2,icv3), SSTATE1(mn1,~kn) ]--[
+  [ In(<$Keyserver,mn2,kn1,c2,icv3>), !SharedCAK(~cak), SSTATE1(mn1,~kn) ]--[
     _restrict(mn2 = count(mn1)),
     _restrict(macverify(icv3,<$Keyserver, mn2, kn1, c2>,ick)=mactrue),
     RekeyAckPrepared(mn2,kn1)
