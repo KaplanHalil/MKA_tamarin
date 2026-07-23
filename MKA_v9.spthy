@@ -76,11 +76,11 @@ KeyServer                                                  Server
     |============= DONE ======================================|
 */
 
-theory MKA_v8
+theory MKA_v9
 
 begin
 
-builtins: symmetric-encryption
+builtins: symmetric-encryption, natural-numbers 
 
 functions:
   kdf/2,
@@ -168,7 +168,7 @@ rule Rekey_KeyServer_Send:
   in
   [ !SharedCAK(~cak), KSSTATE1(mn_ks1, mn_s1, ~kn, sak1), Fr(~KS_nonce1) ]--[
     SentRekeySAK(mn_ks2, kn1, sak2),
-    RekeyStarted(mn_ks2, kn1),
+    RekeyStarted(mn_ks2, kn1, sak2),
     RekeyMessage(mn_ks2, kn1, c2, icv3)
   ]->
   [ Out(<$Keyserver,mn_ks2,kn1,c2,icv3>),
@@ -187,7 +187,7 @@ rule Rekey_Server_Receive:
     _restrict(mn_ks2 = count(mn_ks1)),
     _restrict(macverify(icv3,<$Keyserver, mn_ks2, kn1, c2>,ick)=mactrue),
     _restrict(kn1 = count(~kn)),
-    RekeyAckPrepared(mn_ks2, kn1)
+    RekeyAckPrepared(mn_ks2, kn1, sak2)
     
   ]->
   [ Out(<$Server,mn_s2,kn1,icv4>),
@@ -241,7 +241,7 @@ lemma rekey_agreement:
   "
   All mn_ks2 mn_s2 kn1 sak2 #i.
     RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
-    ==> (Ex #j. RekeyStarted(mn_ks2,kn1)@j & #j < #i)
+    ==> (Ex #j. RekeyStarted(mn_ks2,kn1,sak2)@j & #j < #i)
   "
 
 lemma initial_key_confirmation:
@@ -259,7 +259,7 @@ lemma rekey_key_confirmation:
     RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
     & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
     & not(Ex cak #k. RevealCAK(cak)@k)
-    ==> (Ex #l. RekeyAckPrepared(mn_ks2,kn1)@l & #l < #i)
+    ==> (Ex #l. RekeyAckPrepared(mn_ks2,kn1,sak2)@l & #l < #i)
   "
 
 lemma initial_sak_secrecy_no_reveal:
@@ -300,9 +300,9 @@ lemma no_replay_initial:
 
 lemma rekey_replay_protection:
   "
-  All mn_ks2 kn1 #i #j.
-    RekeyAckPrepared(mn_ks2,kn1)@i
-    & RekeyAckPrepared(mn_ks2,kn1)@j
+  All mn_ks2 kn1 sak2 #i #j.
+    RekeyAckPrepared(mn_ks2,kn1,sak2)@i
+    & RekeyAckPrepared(mn_ks2,kn1,sak2)@j
     ==> #i = #j
   "
 
@@ -329,7 +329,7 @@ lemma server_authentication_rekey:
     RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
     & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
     & not(Ex cak #k. RevealCAK(cak)@k)
-    ==> (Ex #l. RekeyAckPrepared(mn_ks2,kn1)@l & #l < #i)
+    ==> (Ex #l. RekeyAckPrepared(mn_ks2,kn1,sak2)@l & #l < #i)
   "
 
 lemma rekey_after_initial_completion:
@@ -342,8 +342,8 @@ lemma rekey_after_initial_completion:
 
 lemma rekey_cannot_start_before_initial_completion:
   "
-  All mn_ks2 kn1 #i.
-    RekeyStarted(mn_ks2,kn1)@i
+  All mn_ks2 kn1 sak2 #i.
+    RekeyStarted(mn_ks2,kn1,sak2)@i
     ==> (Ex mn_ks1 mn_s1 kn sak1 #j.
       InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j & #j < #i)
   "
