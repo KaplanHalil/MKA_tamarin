@@ -112,7 +112,8 @@ rule Initial_KeyServer_Send:
     icv1 = mac(<$Keyserver, mn_ks1, ~kn, c1 >, ick)
   in
   [ !SharedCAK(~cak), Fr(~kn), Fr(~KS_nonce0) ]--[
-    SentInitialSAK(mn_ks1, ~kn, sak1)
+    SentInitialSAK(mn_ks1, ~kn, sak1),
+    KDFGeneratedSAK(sak1)
   ]->
   [ Out(<$Keyserver, mn_ks1, ~kn, c1, icv1>),
     KSSTATE0(mn_ks1, mn_s, ~kn, sak1) ]
@@ -131,7 +132,8 @@ rule Initial_Server_Receive:
   [ In(<$Keyserver,mn_ks1,~kn,c1,icv1>), !SharedCAK(~cak) ]--[
     _restrict(macverify(icv1,<$Keyserver, mn_ks1, ~kn ,c1>,ick)=mactrue),
     _restrict(mn_ks1 = count(mn_ks)),
-    InitialAckPrepared(mn_s1, ~kn)
+    InitialAckPrepared(mn_s1, ~kn),
+    ServerAcceptedSAK(sak1)
   ]->
   [ Out(<$Server,mn_s1,~kn,icv2>),
     SSTATE0(mn_ks1, mn_s1, ~kn, sak1) ]
@@ -221,154 +223,261 @@ rule Reveal_CAK:
   --[ RevealCAK(~cak) ]->
   [ Out(~cak) ]
 
-/*
+
+rule Malicious_KeyServer_Send:
+
+  let
+      kek = kdf(~cak,'KEK')
+      ick = kdf(~cak,'ICK')
+
+      mn_ks = genMN($Keyserver)
+      mn_ks1 = count(mn_ks)
+
+      c1 = senc(~fakeSAK,kek)
+      icv1 = mac(<$Keyserver,mn_ks1,~kn,c1>,ick)
+
+  in
+
+  [ !SharedCAK(~cak),
+    Fr(~fakeSAK),
+    Fr(~kn)
+  ]
+
+  --[
+      MaliciousSAKSent(~fakeSAK)
+  ]->
+
+  [
+      Out(<$Keyserver,mn_ks1,~kn,c1,icv1>)
+  ]
+
+
+// Bu lemma, modelin en az bir trace üzerinde çalıştığını gösterir:
+// İlk oturum tamamlanıp ardından rekey oturumu da tamamlanan bir yürüyüşün var olduğunu söyler.
 lemma executable:
-  exists-trace
-  "
-    Ex mn_ks1 mn_s1 kn sak1 mn_ks2 mn_s2 kn1 sak2 #i #j.
-      InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
-      & RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@j
-  "
+exists-trace
+"
+Ex mn_ks1 mn_s1 kn sak1 mn_ks2 mn_s2 kn1 sak2 #i #j.
+    InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
+  & RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@j
+"
 
+// İlk oturum başarıyla tamamlandığında, aynı SAK'ın daha önce KeyServer tarafından gönderilmiş
+// olması gerektiğini ifade eder; yani tamamlanan oturumun gerçekten başlatılmış bir oturum olduğunu doğrular.
 lemma initial_agreement:
-  "
-  All mn_ks1 mn_s1 kn sak1 #i.
-    InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
-    ==> (Ex #j. SentInitialSAK(mn_ks1,kn,sak1)@j & #j < #i)
-  "
+"
+All mn_ks1 mn_s1 kn sak1 #i.
 
+InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
+
+==>
+
+(Ex #j.
+    SentInitialSAK(mn_ks1,kn,sak1)@j
+  & #j < #i)
+"
+
+// Rekey oturumu tamamlandığında, bu rekey'in KeyServer tarafından başlatılmış olduğunu
+// garanti eder; yani tamamlanma öncesinde rekey mesajı üretildiğini söyler.
 lemma rekey_agreement:
-  "
-  All mn_ks2 mn_s2 kn1 sak2 #i.
-    RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
-    ==> (Ex #j. RekeyStarted(mn_ks2,kn1,sak2)@j & #j < #i)
-  "
+"
+All mn_ks2 mn_s2 kn1 sak2 #i.
 
+RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
 
-lemma rekey_key_confirmation:
-  "
-  All mn_ks2 mn_s2 kn1 sak2 #i.
-    RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
-    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
-    & not(Ex cak #k. RevealCAK(cak)@k)
-    ==> (Ex #l. RekeyAckPrepared(mn_ks2,kn1,sak2)@l & #l < #i)
-  "
+==>
 
-lemma initial_sak_secrecy_no_reveal:
-  "
-  All mn_ks1 mn_s1 kn sak1 #i.
-    InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
-    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
-    & not(Ex #k. RevealSAK(mn_ks1,mn_s1,kn,sak1)@k)
-    & not(Ex cak #l. RevealCAK(cak)@l)
-    ==> not(Ex #m. K(sak1)@m)
-  "
+(Ex #j.
+    RekeyStarted(mn_ks2,kn1,sak2)@j
+  & #j < #i)
+"
 
-lemma rekey_sak_secrecy_no_reveal:
-  "
-  All mn_ks2 mn_s2 kn1 sak2 #i.
-    RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
-    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
-    & not(Ex #k. RevealSAK(mn_ks2,mn_s2,kn1,sak2)@k)
-    & not(Ex cak #l. RevealCAK(cak)@l)
-    ==> not(Ex #m. K(sak2)@m)
-  "
-
-lemma cak_secrecy_no_reveal:
-  "
-  All cak #i.
-    CAKSetup(cak)@i
-    & not(Ex #j. RevealCAK(cak)@j)
-    ==> not(Ex #k. K(cak)@k)
-  "
-
-lemma no_replay_initial:
-  "
-  All mn_ks1 mn_s1 kn sak1 #i #j.
-    InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
-    & InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j
-    ==> #i = #j
-  "
-
-lemma rekey_replay_protection:
-  "
-  All mn_ks2 kn1 sak2 #i #j.
-    RekeyAckPrepared(mn_ks2,kn1,sak2)@i
-    & RekeyAckPrepared(mn_ks2,kn1,sak2)@j
-    ==> #i = #j
-  "
-
-lemma rekey_message_single_use:
-  "
-  All mn_ks2 kn1 c2 icv3 #i #j.
-    RekeyMessage(mn_ks2,kn1,c2,icv3)@i
-    & RekeyMessage(mn_ks2,kn1,c2,icv3)@j
-    ==> #i = #j
-  "
-
+// CAK ifşa edilmediyse, ilk oturumun tamamlanması durumunda Server tarafının
+// en azından initial ACK hazırladığını gerektirir; böylece Server'ın kimlik doğrulamasını test eder.
 lemma server_authentication_initial:
-  "
-  All mn_ks1 mn_s1 kn sak1 #i.
-    InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
-    & (Ex cak #j. CAKSetup(cak)@j & #j < #i)
-    & not(Ex cak #k. RevealCAK(cak)@k)
-    ==> (Ex #l. InitialAckPrepared(mn_s1,kn)@l & #l < #i)
-  "
+"
+All mn_ks1 mn_s1 kn sak1 #i.
 
-S
+InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
+&
+not(Ex cak #k. RevealCAK(cak)@k)
 
-lemma rekey_after_initial_completion:
-  "
-  All mn_ks2 mn_s2 kn1 sak2 #i.
-    RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
-    ==> (Ex mn_ks1 mn_s1 kn sak1 #j.
-      InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j & #j < #i)
-  "
+==>
 
+(Ex #j.
+    InitialAckPrepared(mn_s1,kn)@j
+  & #j < #i)
+"
+
+// Aynı güvenlik özelliğini rekey aşaması için tekrar eder:
+// CAK açıklanmadığı durumda, rekey tamamlandığında Server'ın rekey ACK'ini hazırladığı gösterilir.
+lemma server_authentication_rekey:
+"
+All mn_ks2 mn_s2 kn1 sak2 #i.
+
+RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
+&
+not(Ex cak #k. RevealCAK(cak)@k)
+
+==>
+
+(Ex #j.
+    RekeyAckPrepared(mn_ks2,kn1,sak2)@j
+  & #j < #i)
+"
+
+// İlk oturum için SAK gizlidir: SAK kendisi ve CAK açıklanmadığı sürece, saldırganın SAK'ı öğrenemeyeceğini söyler.
+lemma initial_sak_secrecy_no_reveal:
+"
+All mn_ks1 mn_s1 kn sak1 #i.
+
+InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
+&
+not(Ex #k.
+    RevealSAK(mn_ks1,mn_s1,kn,sak1)@k)
+&
+not(Ex cak #l.
+    RevealCAK(cak)@l)
+
+==>
+
+not(Ex #m.
+    K(sak1)@m)
+"
+
+// Rekey SAK'ı için aynı gizlilik garantisini kurar:
+// SAK ve CAK açıklanmadığı durumda rekey SAK'ı da saldırganın bilgi edinmesinden korunur.
+lemma rekey_sak_secrecy_no_reveal:
+"
+All mn_ks2 mn_s2 kn1 sak2 #i.
+
+RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
+&
+not(Ex #k.
+    RevealSAK(mn_ks2,mn_s2,kn1,sak2)@k)
+&
+not(Ex cak #l.
+    RevealCAK(cak)@l)
+
+==>
+
+not(Ex #m.
+    K(sak2)@m)
+"
+
+// Rekey işlemi, mutlaka önceki ilk oturumun tamamlanmasının ardından başlayabilir.
+// Bu lemma, “önce rekey başlatılır, sonra initial tamamlanır” gibi anomalileri dışlar.
 lemma rekey_cannot_start_before_initial_completion:
-  "
-  All mn_ks2 kn1 sak2 #i.
-    RekeyStarted(mn_ks2,kn1,sak2)@i
-    ==> (Ex mn_ks1 mn_s1 kn sak1 #j.
-      InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j & #j < #i)
-  "
-*/
+"
+All mn_ks2 kn1 sak2 #i.
 
+RekeyStarted(mn_ks2,kn1,sak2)@i
+
+==>
+
+Ex mn_ks1 mn_s1 kn sak1 #j.
+
+InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j
+&
+#j < #i
+"
+
+// Rekey tamamlanmışsa, en azından önce initial oturumun tamamlanmış olması gerektiğini ifade eder.
+// Yani sistemin rekey'i sadece kurulu bir önceki oturum üzerine yapmasını sağlar.
+lemma rekey_after_initial_completion:
+"
+All mn_ks2 mn_s2 kn1 sak2 #i.
+
+RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
+
+==>
+
+Ex mn_ks1 mn_s1 kn sak1 #j.
+
+InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j
+&
+#j < #i
+"
+
+// Rekey sonrası elde edilen yeni SAK'ın, ilk SAK ile aynı olmaması gerektiğini söyler.
+// Böylece key update'in gerçekten yeni bir anahtar üretimini temsil ettiğini test eder.
 lemma key_update:
-  "
-  All mn_ks1 mn_s1 kn sak1
+"
+All mn_ks1 mn_s1 kn sak1
     mn_ks2 mn_s2 kn1 sak2
     #i #j.
 
-  InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
-  &
-  RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@j
+InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@i
+&
+RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@j
 
-  ==>
+==>
 
-  not(sak1 = sak2)
-  "
-
-lemma key_number_progress:
-  "
-  All mn_ks2 mn_s2 kn1 sak2 #i.
-  RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
-  ==>
-
-  Ex kn mn_ks1 mn_s1 sak1 #j.
-
-  InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j
-  &
-  kn1 = count(kn)
+not(sak1 = sak2)
 "
 
+// Rekey sonrası key number (KN) değerinin, initial oturum key number'dan türetildiğini doğrular.
+// Yani key count akışı ve ilerleyişin tutarlı olduğunu göstermeyi amaçlar.
+lemma key_number_progress:
+"
+All mn_ks2 mn_s2 kn1 sak2 #i.
+
+RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
+
+==>
+
+Ex kn mn_ks1 mn_s1 sak1 #j.
+
+InitialSessionCompleted(mn_ks1,mn_s1,kn,sak1)@j
+&
+kn1 = count(kn)
+"
+
+// Rekey SAK'ı yeni bir SAK olmalı, ama aynı SAK'ın initial oturumda da görülmemelidir.
+// Bu, rekey sırasında “aynı anahtarı yeniden kullanma” senaryosunu dışlar.
 lemma fresh_rekey_key:
 "
 All mn_ks2 mn_s2 kn1 sak2 #i.
+
 RekeySessionCompleted(mn_ks2,mn_s2,kn1,sak2)@i
+
 ==>
-not(Ex mn_ks1 mn_s1 kn #j.
-InitialSessionCompleted(mn_ks1,mn_s1,kn,sak2)@j)
+
+not(
+ Ex mn_ks1 mn_s1 kn #j.
+
+ InitialSessionCompleted(mn_ks1,mn_s1,kn,sak2)@j
+)
+"
+
+// Bu exists-trace lemma, Server'ın sadece KDF üretimiyle gelen SAK'ları kabul etmesi gerektiğini
+// savunan güvenlik hedefinin, modelde gerçekten bozulabileceğini gösteren karşı örneği ifade eder.
+lemma server_only_accepts_kdf_keys:
+exists-trace
+"
+Ex sak #i.
+
+ServerAcceptedSAK(sak)@i
+&
+not(Ex #j.
+    KDFGeneratedSAK(sak)@j)
+"
+
+// Server'ın kötü niyetli/malicious bir SAK'ı kabul edebildiğini gösteren varlık lemma'sıdır.
+// Bu, protokoldeki kabul mekanizmasının zayıf olabileceğini gösterir.
+lemma accepts_non_kdf_sak:
+
+exists-trace
+"
+
+Ex sak #i #j.
+
+    MaliciousSAKSent(sak)@i
+&
+    ServerAcceptedSAK(sak)@j
+&
+    #i < #j
+
 "
 
 end
