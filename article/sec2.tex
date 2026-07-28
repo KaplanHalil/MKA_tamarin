@@ -1,0 +1,23 @@
+\section{LP and MILP}
+
+\subsection{Linear Programming}
+Linear Programming (LP) is a fundamental mathematical optimization technique that was first introduced in the 1940s by George Dantzig \cite{dantzig2002linear}, although its development continued into the 1950s. LP has become an 
+\subsubsection{Modelling and Result}
+
+We will use Sagemath and GLPK solver for modeling Toy example. After running code in Listing  \ref{lst:toyExample} . We found that Maximum profit 2160 can be achieved by producing  42 A product and 16 B product.
+\begin{lstlisting}[caption={Sagemath MILP modelling of toy example }, label={lst:toyExample}]
+
+p.<x,y> = MixedIntegerLinearProgram 
+(maximization=True, solver = "GLPK")
+
+p.set_objective(40*x[0]+ 30*y[0])
+
+p.add_constraint(2*x[0] + y[0] == 100)
+p.add_constraint(x[0] + 3*y[0] == 90)
+p.add_constraint(x[0] >= 20)
+p.add_constraint(y[0] >= 0)
+
+print(p.solve())
+print(p.get_values(x,y))
+
+\end{lstlisting}
