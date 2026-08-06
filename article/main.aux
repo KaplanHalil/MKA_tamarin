@@ -1,16 +1,75 @@
 \relax 
-\citation{dantzig2002linear}
-\@writefile{toc}{\contentsline {title}{Taslak Makale}{1}{}\protected@file@percent }
-\@writefile{toc}{\authcount {1}}
-\@writefile{toc}{\contentsline {author}{Halil İbrahim Kaplan }{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}LP and MILP}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Linear Programming}{1}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Modelling and Result}{1}{}\protected@file@percent }
-\newlabel{lst:toyExample}{{1.1}{1}{}{}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1.1}Sagemath MILP modelling of toy example}{1}{}\protected@file@percent }
-\bibstyle{splncs04}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{ieee8021ae}
+\citation{ieee8021x}
+\citation{ieee8021ae}
+\citation{ieee8021x}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {I-}0a}Contributions.}{1}{paragraph.1.0.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {I-}0b}Organization.}{1}{paragraph.1.0.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Background}{1}{section.2}\protected@file@percent }
+\newlabel{sec:background}{{II}{1}{Background}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}IEEE 802.1X MACsec Key Agreement (MKA)}{1}{subsection.2.1}\protected@file@percent }
+\citation{meier2013tamarin}
+\citation{basin2015tamarin}
+\citation{dolevyao1983}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Tamarin Prover}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {II-B}0a}Modelling language.}{2}{paragraph.2.2.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {II-B}0b}Equational theories.}{2}{paragraph.2.2.0.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Simplified two-party MKA protocol flow (initial session and rekey round) as specified in \texttt  {MKA\_v10.spthy}. \$KS = KeyServer identity, \$S = Server identity, MN = Message Number counter, KN = Key Number counter.}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:mka_flow}{{1}{2}{Simplified two-party MKA protocol flow (initial session and rekey round) as specified in \texttt {MKA\_v10.spthy}. \$KS = KeyServer identity, \$S = Server identity, MN = Message Number counter, KN = Key Number counter}{figure.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {II-B}0c}Restrictions and lemmas.}{3}{paragraph.2.2.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {II-B}0d}Rule syntax and a concrete MKA example.}{3}{paragraph.2.2.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {II-B}0e}Monotonic counters and the \texttt  {natural-numbers} builtin.}{3}{paragraph.2.2.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {II-B}0f}Debugging and reproducibility.}{3}{paragraph.2.2.0.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Formal Model}{3}{section.3}\protected@file@percent }
+\newlabel{sec:model}{{III}{3}{Formal Model}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Cryptographic Primitives and Equational Theory}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Protocol Participants and Long-Term State}{3}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-B}0a}CAK setup.}{3}{paragraph.3.2.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-B}0b}Derived keys.}{3}{paragraph.3.2.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Initial Session Rules}{3}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-C}0a}Initial\_KeyServer\_Send.}{3}{paragraph.3.3.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-C}0b}Initial\_Server\_Receive.}{3}{paragraph.3.3.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {III-C}0c}Initial\_KeyServer\_Confirm.}{3}{paragraph.3.3.0.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Security lemmas verified against the MKA model.}}{4}{table.1}\protected@file@percent }
+\newlabel{tab:lemmas}{{I}{4}{Security lemmas verified against the MKA model}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Rekey Rules}{4}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Adversary Model and Compromise Rules}{4}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Security Properties}{4}{section.4}\protected@file@percent }
+\newlabel{sec:properties}{{IV}{4}{Security Properties}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Protocol Executability}{4}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Agreement Properties}{4}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Server Authentication}{4}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}SAK Secrecy}{4}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Session Ordering and Key Freshness}{4}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Structural Weakness: KDF-Bypass Attack}{4}{subsection.4.6}\protected@file@percent }
+\citation{lowe1996breaking}
+\citation{blanchet2001efficient}
+\citation{cremers2017comprehensive}
+\citation{kobeissi2017automated}
+\citation{vanhoef2017key}
+\citation{cremers2017comprehensive}
+\bibstyle{IEEEtran}
 \bibdata{main}
-\bibcite{dantzig2002linear}{1}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Conclusion}{2}{}\protected@file@percent }
-\gdef \@abspage@last{2}
+\bibcite{ieee8021ae}{1}
+\bibcite{ieee8021x}{2}
+\bibcite{meier2013tamarin}{3}
+\bibcite{basin2015tamarin}{4}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Verification Results}{5}{section.5}\protected@file@percent }
+\newlabel{sec:results}{{V}{5}{Verification Results}{section.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Related Work}{5}{section.6}\protected@file@percent }
+\newlabel{sec:related}{{VI}{5}{Related Work}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion}{5}{section.7}\protected@file@percent }
+\newlabel{sec:conclusion}{{VII}{5}{Conclusion}{section.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {VII-}0a}Future work.}{5}{paragraph.7.0.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{5}{section*.1}\protected@file@percent }
+\bibcite{dolevyao1983}{5}
+\bibcite{lowe1996breaking}{6}
+\bibcite{blanchet2001efficient}{7}
+\bibcite{cremers2017comprehensive}{8}
+\bibcite{kobeissi2017automated}{9}
+\bibcite{vanhoef2017key}{10}
+\gdef \@abspage@last{6}
